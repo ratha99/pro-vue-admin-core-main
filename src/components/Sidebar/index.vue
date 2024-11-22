@@ -211,14 +211,13 @@ export default defineComponent({
         icon: "bx:user-pin",
         link: "role",
       });
-
-      // if (services.checkPermission(perSlug[0].VIEW_USER_LIST)) {
-      //   menuItems.value.push({
-      //     title: "user",
-      //     icon: "mdi:users-group-outline",
-      //     link: "user",
-      //   });
-      // }
+      if (services.checkPermission(perSlug[0].ADMIN)) {
+        menuItems.value.push({
+          title: "test",
+          icon: "mdi:users-group-outline",
+          link: "test",
+        });
+      }
 
       // if (services.checkPermission(perSlug[0].VIEW_ROLE_LIST)) {
       //   menuItems.value.push({

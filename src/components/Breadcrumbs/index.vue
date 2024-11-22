@@ -22,7 +22,7 @@
       </li>
       <li class="text-primary-500">
         <button type="button" class="capitalize">
-          {{ $t(this.$route.meta.groupParent) }}
+          {{ $t(this.$route.meta.groupParent) }} 
         </button>
         <span class="breadcrumbs-icon rtl:transform rtl:rotate-180">
           <Icon icon="heroicons:chevron-right" />
