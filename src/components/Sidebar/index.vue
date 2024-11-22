@@ -167,12 +167,12 @@ export default defineComponent({
         child: [
           {
             childtitle: "ឯកសារចេញ",
-            childlink: "home",
+            childlink: "dac-docout",
             icon: "fluent:folder-arrow-right-48-regular",
           },
           {
             childtitle: "ឯកសារចូល",
-            childlink: "home",
+            childlink: "dac-docin",
             icon: "fluent:folder-arrow-left-48-regular",
           },
         ],
@@ -185,12 +185,12 @@ export default defineComponent({
         child: [
           {
             childtitle: "ឯកសារចេញ",
-            childlink: "home",
+            childlink: "doe-docOut",
             icon: "fluent:folder-arrow-right-48-regular",
           },
           {
             childtitle: "ឯកសារចូល",
-            childlink: "home",
+            childlink: "doe-docIn",
             icon: "fluent:folder-arrow-left-48-regular",
           },
         ],
@@ -216,6 +216,22 @@ export default defineComponent({
           title: "test",
           icon: "mdi:users-group-outline",
           link: "test",
+        });
+      }
+
+      if (services.checkPermission(perSlug[0].dac)) {
+        menuItems.value.push({
+          title: "dac",
+          icon: "mdi:users-group-outline",
+          link: "dac",
+        });
+      }
+
+      if (services.checkPermission(perSlug[0].doe)) {
+        menuItems.value.push({
+          title: "doe",
+          icon: "mdi:users-group-outline",
+          link: "doe_link",
         });
       }
 

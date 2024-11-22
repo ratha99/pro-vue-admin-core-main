@@ -7,7 +7,7 @@ const routes = [
     redirect: "/app/home",
     component: () => import("@/Layout/index.vue"),
   },
- 
+
   {
     path: "/login",
     name: "Login",
@@ -23,7 +23,48 @@ const routes = [
       middleware: [auth],
       slug: "1",
     },
+
     children: [
+      {
+        path: "dac-docout",
+        name: "ឯកសារចេញ​",
+        component: () => import("@/views/folder/dacDocOut.vue"),
+        meta: {
+          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          slug: perSlug[0].DAC,
+          hide: false,
+        },
+      },
+      {
+        path: "dac-docin",
+        name: "ឯកសារចូល​",
+        component: () => import("@/views/folder/dacDocIn.vue"),
+        meta: {
+          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          slug: perSlug[0].DAC,
+          hide: false,
+        },
+      },
+      {
+        path: "doe-docOut",
+        name: "ឯកសារចេញ",
+        component: () => import("@/views/folder/doeDocOut.vue"),
+        meta: {
+          groupParent: "ន.រដ្ឋាភិបាលអេឡិកត្រូនិក",
+          slug: perSlug[0].DOE,
+          hide: false,
+        },
+      },
+      {
+        path: "doe-docin",
+        name: "ឯកសារចូល",
+        component: () => import("@/views/folder/doeDocIn.vue"),
+        meta: {
+          groupParent: "ន.រដ្ឋាភិបាលអេឡិកត្រូនិក",
+          slug: perSlug[0].DOE,
+          hide: false,
+        },
+      },
       {
         path: "home",
         name: "home",
@@ -37,7 +78,7 @@ const routes = [
         path: "profile",
         name: "profile",
         component: () => import("@/views/profile.vue"),
-        meta:{
+        meta: {
           slug: perSlug[0].VIEW_DASHBOARD,
         }
       },
@@ -45,7 +86,7 @@ const routes = [
         path: "change_password",
         name: "change_password",
         component: () => import("@/views/change_password_profile.vue"),
-        meta:{
+        meta: {
           slug: perSlug[0].VIEW_DASHBOARD,
         }
       },
@@ -94,7 +135,7 @@ const routes = [
           slug: perSlug[0].SET_ROLE_PERMISSION,
         },
       },
-      
+
       {
         path: "test",
         name: "test",

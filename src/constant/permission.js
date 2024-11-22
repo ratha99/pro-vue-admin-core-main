@@ -1,6 +1,7 @@
 export const perSlug = [
     {
         ADMIN: "admin",
-        DOE: "doe"
+        DOE: "doe",
+        DAC: "dac"
     },
 ]
