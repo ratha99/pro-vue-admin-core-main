@@ -67,7 +67,7 @@
         @after-leave="afterLeave"
       >
         <!-- !! SubMenu !! -->
-        <ul calss="sub-menu " v-if="i === activeSubmenu">
+        <ul class="sub-menu" v-if="i === activeSubmenu">
           <li
             v-for="(ci, index) in item.child"
             :key="index"
@@ -78,22 +78,14 @@
                 class="text-sm flex space-x-3 rtl:space-x-reverse items-center transition-all duration-150"
                 :class="
                   isActive
-                    ? 'text-white dark:text-white font-medium'
-                    : 'text-white dark:text-slate-300'
+                    ? 'text-white bg-[#003a8a] dark:bg-[#003a8a] font-medium rounded-lg'
+                    : 'text-[#003a8a] bg-transparent dark:text-[#003a8a]'
                 "
               >
-                <!-- <span
-                  class="h-2 w-2 rounded-full border border-slate-600 dark:border-slate-300 inline-block flex-none"
-                  :class="
-                    isActive
-                      ? ' bg-white dark:bg-slate-300 ring-4 ring-opacity-[25%] ring-white dark:ring-slate-300 dark:ring-opacity-20'
-                      : ''
-                  "
-                ></span> -->
                 <span class="menu-icon" v-show="ci.icon">
-                  <Icon :icon="ci.icon"
-                /></span>
-                <span class="flex-1" style="color: #003a8a !important">
+                  <Icon :icon="ci.icon" />
+                </span>
+                <span class="flex-1">
                   {{ ci.childtitle }}
                 </span>
               </span>
@@ -313,5 +305,9 @@ export default {
   .menu-badge {
     @apply bg-slate-100  text-slate-900;
   }
+}
+.sub-menu .router-link-active {
+  color: #003a8a !important;
+  font-weight: 600;
 }
 </style>
