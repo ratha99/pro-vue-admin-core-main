@@ -58,6 +58,7 @@ if (localStorage.users === undefined) {
         },
     ];
     localStorage.setItem("users", JSON.stringify(users));
+    console.log
 }
 
 // check localStorage theme for dark light bordered

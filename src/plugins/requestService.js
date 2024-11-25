@@ -7,8 +7,11 @@ import authHeaderCommon from "./authHeaderCommon";
 // const API_URL = "http://103.16.62.58:86/web/api/v1/";
 // const API_COMMON_URL = "http://103.16.62.58:86/api/v1/";
 
-const API_URL = "http://152.42.250.99:3000/v1/";
-const API_COMMON_URL = "http://152.42.250.99:3000/v1/"; 
+const API_URL = "http://localhost:3000/v1/";
+const API_COMMON_URL = "http://localhost:3000/v1/"; 
+
+// const API_URL = "http://152.42.250.99:3000/v1/";
+// const API_COMMON_URL = "http://152.42.250.99:3000/v1/"; 
 //common url
 const common_get = (endpoint) => {
     return axios.get(API_COMMON_URL + endpoint, { headers: authHeader() });
@@ -64,14 +67,35 @@ const getUserDetail = () => {
 };
 
 const checkPermission = (slug) => {
+    
     let data = JSON.parse(localStorage.getItem("userData"));
-    if (typeof data.role.permissions.slug === "undefined") {
+
+    // console.log("dddd",data.role.permissions.slug);
+
+    if (typeof data.role.permissions.slug === "undefined" || typeof data.role.permissions.slug ==="") {
         return false
+        
     }
     let p = data.role.permissions.slug.filter(e => e === slug).length;
 
     return p ? p : false;
 };
+
+
+// const checkPermission = (slug) => {
+//     const data = JSON.parse(localStorage.getItem("userData"));
+
+//     // Safely access role and permissions with null checks
+//     if (!data || !data.role || !data.role.permissions || !Array.isArray(data.role.permissions.slug)) {
+//         return false; // Return false if any of the properties are missing
+//     }
+
+//     // Check if the slug exists in the permissions array
+//     return data.role.permissions.slug.includes(slug);
+
+// };
+
+
 
 const logout = () => {
     return localStorage.removeItem("activeUser");

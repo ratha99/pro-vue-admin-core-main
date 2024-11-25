@@ -119,6 +119,8 @@
     </div>
   </div>
 </template>
+
+
 <script>
 // import { Icon } from "@iconify/vue";
 import { defineComponent, inject } from "vue";
@@ -143,6 +145,7 @@ export default defineComponent({
   },
   setup() {
     const services = inject("services");
+
     const menuItems = ref([
       {
         title: "dashboard",
@@ -158,59 +161,111 @@ export default defineComponent({
         isHeadr: true,
         title: "ថតឯកសារ",
       });
+      // for slug Admin
 
-      menuItems.value.push({
-        title: "ន. កម្មវីធីកុំព្យទ័រ",
-        icon: "stash:folder-solid",
-        link: "#",
-        isOpen: true,
-        child: [
-          {
-            childtitle: "ឯកសារចេញ",
-            childlink: "dac-docout",
-            icon: "fluent:folder-arrow-right-48-regular",
-          },
-          {
-            childtitle: "ឯកសារចូល",
-            childlink: "dac-docin",
-            icon: "fluent:folder-arrow-left-48-regular",
-          },
-        ],
-      });
-      menuItems.value.push({
-        title: "ន.រដ្ឋបាលអេឡិចត្រូនិក",
-        icon: "stash:folder-solid",
-        link: "department",
-        isOpen: true,
-        child: [
-          {
-            childtitle: "ឯកសារចេញ",
-            childlink: "doe-docOut",
-            icon: "fluent:folder-arrow-right-48-regular",
-          },
-          {
-            childtitle: "ឯកសារចូល",
-            childlink: "doe-docIn",
-            icon: "fluent:folder-arrow-left-48-regular",
-          },
-        ],
-      });
-      menuItems.value.push({
-        isHeadr: true,
-        title: "user management",
-      });
+      if (services.checkPermission(perSlug[0].ADMIN)) {
+        
+         menuItems.value.push({
+          title: "ន. កម្មវីធីកុំព្យទ័រ",
+          icon: "stash:folder-solid",
+          link: "#",
+          isOpen: true,
+          child: [
+            {
+              childtitle: "ឯកសារចេញ",
+              childlink: "dac-docout",
+              icon: "fluent:folder-arrow-right-48-regular",
+            },
+            {
+              childtitle: "ឯកសារចូល",
+              childlink: "dac-docin",
+              icon: "fluent:folder-arrow-left-48-regular",
+            },
+          ],
+        });
+        
+        menuItems.value.push({
+          title: "ន.រដ្ឋបាលអេឡិចត្រូនិក",
+          icon: "stash:folder-solid",
+          link: "department",
+          isOpen: true,
+          child: [
+            {
+              childtitle: "ឯកសារចេញ",
+              childlink: "doe-docOut",
+              icon: "fluent:folder-arrow-right-48-regular",
+            },
+            {
+              childtitle: "ឯកសារចូល",
+              childlink: "doe-docIn",
+              icon: "fluent:folder-arrow-left-48-regular",
+            },
+          ],
+        });
+        
+        menuItems.value.push({
+          isHeadr: true,
+          title: "user management",
+        });
 
-      menuItems.value.push({
-        title: "user",
-        icon: "mdi:users-group-outline",
-        link: "user",
-      });
+        menuItems.value.push({
+          title: "user",
+          icon: "mdi:users-group-outline",
+          link: "user",
+        });
 
-      menuItems.value.push({
-        title: "role",
-        icon: "bx:user-pin",
-        link: "role",
-      });
+        menuItems.value.push({
+          title: "role",
+          icon: "bx:user-pin",
+          link: "role",
+        });
+
+       
+      }
+
+      // for slug DAC
+      if (services.checkPermission(perSlug[0].DAC)) {
+        menuItems.value.push({
+          title: "ន. កម្មវីធីកុំព្យទ័រ",
+          icon: "stash:folder-solid",
+          link: "#",
+          isOpen: true,
+          child: [
+            {
+              childtitle: "ឯកសារចេញ",
+              childlink: "dac-docout",
+              icon: "fluent:folder-arrow-right-48-regular",
+            },
+            {
+              childtitle: "ឯកសារចូល",
+              childlink: "dac-docin",
+              icon: "fluent:folder-arrow-left-48-regular",
+            },
+          ],
+        });
+      }
+      // for slug DOE
+      if (services.checkPermission(perSlug[0].DOE)) {
+        menuItems.value.push({
+          title: "ន.រដ្ឋបាលអេឡិចត្រូនិក",
+          icon: "stash:folder-solid",
+          link: "department",
+          isOpen: true,
+          child: [
+            {
+              childtitle: "ឯកសារចេញ",
+              childlink: "doe-docOut",
+              icon: "fluent:folder-arrow-right-48-regular",
+            },
+            {
+              childtitle: "ឯកសារចូល",
+              childlink: "doe-docIn",
+              icon: "fluent:folder-arrow-left-48-regular",
+            },
+          ],
+        });
+      }
+
       if (services.checkPermission(perSlug[0].ADMIN)) {
         menuItems.value.push({
           title: "test",
@@ -219,21 +274,21 @@ export default defineComponent({
         });
       }
 
-      if (services.checkPermission(perSlug[0].dac)) {
-        menuItems.value.push({
-          title: "dac",
-          icon: "mdi:users-group-outline",
-          link: "dac",
-        });
-      }
+      // if (services.checkPermission(perSlug[0].DAC)) {
+      //   menuItems.value.push({
+      //     title: "ន. កម្មវីធីកុំព្យទ័រ",
+      //     icon: "mdi:users-group-outline",
+      //     link: "test",
+      //   });
+      // }
 
-      if (services.checkPermission(perSlug[0].doe)) {
-        menuItems.value.push({
-          title: "doe",
-          icon: "mdi:users-group-outline",
-          link: "doe_link",
-        });
-      }
+      // if (services.checkPermission(perSlug[0].doe)) {
+      //   menuItems.value.push({
+      //     title: "doe",
+      //     icon: "mdi:users-group-outline",
+      //     link: "doe_link",
+      //   });
+      // }
 
       // if (services.checkPermission(perSlug[0].VIEW_ROLE_LIST)) {
       //   menuItems.value.push({
@@ -287,6 +342,8 @@ export default defineComponent({
   },
 });
 </script>
+
+
 <style lang="scss">
 .sidebar-wrapper {
   @apply fixed ltr:left-0 rtl:right-0 top-0   h-screen   z-[999];

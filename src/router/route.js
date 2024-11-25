@@ -24,6 +24,8 @@ const routes = [
       slug: "1",
     },
 
+   
+    
     children: [
       {
         path: "dac-docout",
@@ -142,7 +144,7 @@ const routes = [
         component: () => import("@/views/test/index.vue"),
         meta: {
           slug: perSlug[0].VIEW_DASHBOARD,
-          groupParent: "user management",
+          groupParent: "user management1",
         },
       },
       {
