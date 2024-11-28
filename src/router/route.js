@@ -48,6 +48,28 @@ const routes = [
         },
       },
       {
+        path: "dac-docin-create",
+        name: "ឯកសារចូល-create​",
+        component: () => import("@/views/folder/dacDocInCreate.vue"),
+        meta: {
+          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          slug: perSlug[0].DAC,
+          hide: false,
+        },
+        
+      },
+      {
+        path: "dac-docin-edit",
+        name: "ឯកសារចូល-edit",
+        component: () => import("@/views/folder/dacDocInEdit.vue"),
+        meta: {
+          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          slug: perSlug[0].DAC,
+          hide: false,
+        },
+        
+      },
+      {
         path: "doe-docOut",
         name: "ឯកសារចេញ",
         component: () => import("@/views/folder/doeDocOut.vue"),
