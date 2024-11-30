@@ -1,12 +1,45 @@
 <template>
+    <!-- <Button text="Open Modal" @click="toggleModal" /> -->
+    <Modal
+      :title="$t('Document-In')"
+      label="Modal title"
+      :activeModal="show"
+      @close="show = false"
+    >
+    <Textinput
+      label="Document No"
+      name="pn"
+      type="text"
+      placeholder="Document No"
+    />
+    <br>
+    <Textarea
+      label="Title"
+      name="pd"
+      placeholder="Title"
+    />
+    <br>
+    <!-- <Select
+      label="Document Type"
+      name="dt"
+      :options="options"
+      placeholder="Document Type"
+    /> -->
+    <Fileinput label="Document" @change="onFileChange" />
+    <br>
+    <Button icon="heroicons-outline:plus-sm" text="Save" btnClass=" btn-success font-normal btn-sm "
+            iconClass="text-lg" @click="$emit(uploadFile())" />
+  </Modal>
   <div class="space-y-5 profile-page">
 
     <div class="grid grid-cols-12 gap-6">
       <div class="lg:col-span-12 col-span-12 ">
         <Card :title="$t('Document-In')">
           <div class="py-4">
-          <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')" btnClass=" btn-success font-normal btn-sm "
-            iconClass="text-lg" @click="$emit(createFile())" />
+          <!-- <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')" btnClass=" btn-success font-normal btn-sm "
+            iconClass="text-lg" @click="$emit(createFile())" /> -->
+            <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')" btnClass=" btn-success font-normal btn-sm "
+            iconClass="text-lg" @click="toggleModal" />
           </div>
           <vue-good-table :columns="columns" :rows="files" styleClass=" vgt-table bordered centered"
             :sort-options="{ enabled: ture }" :pagination-options="{
@@ -54,9 +87,25 @@
 
   </div>
 </template>
+<script setup>
+import Modal from "@/components/Modal";
+import Select from "@/components/Select";
+import { ref } from "vue";
+const show = ref(false);
+const toggleModal = () => {
+  show.value = !show.value;
+};
+const options = [
+  { value: "1", text: "Web Application" },
+  { value: "2", text: "Mobile Application" },
+
+];
+</script>
+
 <script>
 import Card from "@/components/Card";
 import { useToast } from "vue-toastification";
+// import Modal from "@/components/Modal/Modal.vue";
 
 import Icon from "@/components/Icon";
 import Button from "@/components/Button";
@@ -64,23 +113,29 @@ import Fileinput from "@/components/Fileinput"
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next';
 import axios from "axios";
+import Textinput from "@/components/Textinput";
+import Textarea from "@/components/Textarea";
 
-// import { onMounted, ref } from 'vue';
+
+// import { ref } from 'vue';
 // import profileImg from "@/assets/images/avatar/avatar.png"
+
 export default {
   components: {
     Card,
     Icon,
     Button,
     VueGoodTable,
-    Fileinput
+    Fileinput,
+    Modal,
+    Textinput,
+    Textarea,
   },
   setup() {
   
-
-   
+    
     const toast = useToast();
-    return { toast,  }
+    return { toast}
 
     // const userProfile = ref({})
     // const urlProfile = ref(profileImg)
@@ -134,6 +189,7 @@ export default {
  
  
   methods: {
+
     async getFiles() {
       try {
 
