@@ -3,49 +3,17 @@
 
     <div class="grid grid-cols-12 gap-6">
       <div class="lg:col-span-12 col-span-12 ">
-        <Card :title="$t('Document-In')">
-          <div class="py-4">
+        <Card :title="$t('Document-Out')">
+          <Fileinput @change="onFileChange" />
+          <div class="mt-5">
           <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')" btnClass=" btn-success font-normal btn-sm "
-            iconClass="text-lg" @click="$emit(createFile())" />
+            iconClass="text-lg" @click="$emit(uploadFile())" />
+         
+          <span class="ml-2">
+            <Button icon="heroicons-outline:arrow-left" :text="$t('Back')" btnClass=" btn-primary font-normal btn-sm "
+            iconClass="text-lg" @click="$emit(backFile())" />
+          </span>
           </div>
-          <vue-good-table :columns="columns" :rows="files" styleClass=" vgt-table bordered centered"
-            :sort-options="{ enabled: ture }" :pagination-options="{
-              enabled: true,
-              perPage: perpage,
-            }" :search-options="{
-              enabled: true,
-              externalQuery: searchTerm,
-            }" :select-options="{
-        enabled: true,
-        selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-        selectioninfoClass: 'custom-class',
-        selectionText: 'rows selected',
-        clearSelectionText: 'clear',
-        disableSelectinfo: true, // disable the select info-500 panel on top
-        selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
-      }">
-            <template #table-row="props">
-             
-              <span v-if="props.column.field == 'action'" class="ml-2">
-                <!-- <button type="button" class="btn btn-warning" v-on:click="edit(props.row.id)"><i
-              class="fas fa-edit"></i></button> -->
-                <Button icon="heroicons:pencil-square" :text="$t('edit')" btnClass=" btn-warning font-normal btn-sm "
-                  iconClass="text-ls" @click="editFile(props.row._id)" />
-
-              </span>
-              <span v-if="props.column.field == 'action'" class="ml-2">
-                <!-- <button type="button" class="btn btn-danger " v-on:click="remove(props.row.id)"><i
-              class="fas fa-trash-alt"></i></button> -->
-                <Button icon="heroicons-outline:trash" :text="$t('delete')" btnClass=" btn-danger font-normal btn-sm "
-                  iconClass="text-ls" @click="deleteFile(props.row._id)" />
-              </span>
-              <span v-else>
-                {{ props.formattedRow[props.column.field] }}
-              </span>
-            </template>
-
-          </vue-good-table>
-
         </Card>
       </div>
 
@@ -96,7 +64,6 @@ export default {
   data() {
     return {
       files: [],
-      file_id:'',
       selectedFile: null,
       validExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf'],
       maxSize: 2 * 1024 * 1024, // 2 MB,
@@ -128,58 +95,11 @@ export default {
 
     };
   },
-  mounted() {
-   this.getFiles()
-  },
- 
  
   methods: {
-    async getFiles() {
-      const token = JSON.parse(localStorage.getItem('activeUser'))
-      //this.token = token.accessToken
-      //console.log(token.accessToken)
-      try {
-
-        const response = await axios.get(`http://localhost:3000/v1/files`,
-        {
-          headers: {
-            authorization: `Bearer ${token.accessToken}`
-          },
-      });
-        const files = response.data;
-        //this.pages = pages
-        this.files = files;
-
-      } catch (error) {
-        console.log(error)
-      }
+    backFile(){
+      this.$router.push('dac-docout')
     },
-   createFile(){
-      this.$router.push('dac-docin-create')
-   },
-   editFile(file_id){
-    console.log(file_id)
-    this.$router.push('dac-docin-edit')
-   },
-    async deleteFile(file) {
-      // console.log("Helloo")
-      // console.log(file)
-      try {
-        await axios.delete(`http://localhost:3000/v1/files/${file}`)
-        //location.reload()  
-      }
-      //console.log(response.data)
-      catch (error) {
-        console.error('Error delete file:', error);
-        return this.toast.warning(error);
-
-      }
-
-      this.toast.success("File deleted success")
-      this.getFiles()
-
-    },
-
     onFileChange(event) {
 
       const file = event.target.files[0];
@@ -223,7 +143,7 @@ export default {
         return this.toast.warning(error);
 
       }
-      this.getFiles()
+     
       //location.reload()
 
 

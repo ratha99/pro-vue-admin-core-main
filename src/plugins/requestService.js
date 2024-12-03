@@ -16,6 +16,10 @@ const API_COMMON_URL = "http://localhost:3000/v1/";
 const common_get = (endpoint) => {
     return axios.get(API_COMMON_URL + endpoint, { headers: authHeader() });
 }; 
+const file_get = (endpoint) => {
+    return axios.get(API_COMMON_URL + endpoint,
+         {responseType: "blob", headers: authHeader() });
+};
 
 const common_post = (endpoint, data) => {
     return axios.post(API_COMMON_URL + endpoint, data, { headers: authHeader() });
@@ -120,6 +124,7 @@ export default {
                 common_remove,
                 getUserDetail,
                 checkPermission,
+                file_get
             };
         }
         app.provide('services', {
@@ -137,6 +142,7 @@ export default {
             common_remove,
             getUserDetail,
             checkPermission,
+            file_get
         });
     }
 }

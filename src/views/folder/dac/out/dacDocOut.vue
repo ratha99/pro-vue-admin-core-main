@@ -3,7 +3,7 @@
 
     <div class="grid grid-cols-12 gap-6">
       <div class="lg:col-span-12 col-span-12 ">
-        <Card :title="$t('Document-In')">
+        <Card :title="$t('Document-Out')">
           <div class="py-4">
           <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')" btnClass=" btn-success font-normal btn-sm "
             iconClass="text-lg" @click="$emit(createFile())" />
@@ -97,6 +97,7 @@ export default {
     return {
       files: [],
       file_id:'',
+      token : JSON.parse(localStorage.getItem('activeUser')),
       selectedFile: null,
       validExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf'],
       maxSize: 2 * 1024 * 1024, // 2 MB,
@@ -135,9 +136,17 @@ export default {
  
   methods: {
     async getFiles() {
+      //const token = JSON.parse(localStorage.getItem('activeUser'))
+      //this.token = token.accessToken
+      //console.log(token.accessToken)
       try {
 
-        const response = await axios.get(`http://localhost:3000/v1/files`);
+        const response = await axios.get(`http://localhost:3000/v1/files?type=Out`,
+        {
+          headers: {
+            authorization: `Bearer ${this.token.accessToken}`
+          },
+      });
         const files = response.data;
         //this.pages = pages
         this.files = files;
@@ -147,17 +156,22 @@ export default {
       }
     },
    createFile(){
-      this.$router.push('dac-docin-create')
+      this.$router.push('dac-docout-create')
    },
    editFile(file_id){
     console.log(file_id)
-    this.$router.push('dac-docin-edit')
+    this.$router.push('dac-docout-eidt')
    },
     async deleteFile(file) {
       // console.log("Helloo")
       // console.log(file)
       try {
-        await axios.delete(`http://localhost:3000/v1/files/${file}`)
+        await axios.delete(`http://localhost:3000/v1/files/${file}`,
+        {
+          headers: {
+            authorization: `Bearer ${this.token.accessToken}`
+          },
+      });
         //location.reload()  
       }
       //console.log(response.data)
