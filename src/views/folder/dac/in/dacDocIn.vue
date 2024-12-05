@@ -1,5 +1,4 @@
 <template>
-  <Card>
     <Modal_delete :title="modalTitle" :activeModal="showDelete" @close="showDelete = false" :themeClass="modalHeader">
       <h4 class="font-medium text-lg mb-3 text-slate-900">
         {{ $t("delete_confirm_message") }}
@@ -17,16 +16,18 @@
 
       <Fileinput label="Document" @change="onFileChange" />
       <br>
-      <Button icon="heroicons-outline:plus-sm" text="Save" btnClass=" btn-success font-normal btn-sm "
+      <template #footer>
+        <Button icon="heroicons-outline:inbox-arrow-down" text="Save" btnClass=" btn-success font-normal btn-sm top-0 right-0"
         iconClass="text-lg" @click="uploadFile" />
-
-      <Button icon="heroicons-outline:plus-sm" text="Close" btnClass=" btn-primary font-normal btn-sm "
+        <Button icon="heroicons-outline:x-mark" text="Close" btnClass=" btn-warning font-normal btn-sm "
         iconClass="text-lg" @click="show = false" />
+      </template>
+      
+
+      <!-- <Button icon="heroicons-outline:plus-sm" text="Close" btnClass=" btn-warning font-normal btn-sm "
+        iconClass="text-lg" @click="show = false" /> -->
     </Modal>
-  </Card>
-
-
-  <Card> <!-- <Button text="Open Modal" @click="toggleModal" /> -->
+ <!-- <Button text="Open Modal" @click="toggleModal" /> -->
     <Modal_eidt :title="$t('Document-In-Edit')" label="Modal Edit" :activeModal="show1" @close="show1 = false">
       <Textinput label="Document No" name="num" type="text" placeholder="Document No" v-model="numEdit"
         :disabled="isDisabled" />
@@ -41,27 +42,26 @@
         <img :src="image" alt="Fetched Image" style="max-width: 100%;" />
       </div>
       <!-- <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p> -->
-
-      <Button icon="heroicons-outline:plus-sm" text="Edit" btnClass=" btn-success font-normal btn-sm "
+      <template #footer>
+        <Button icon="heroicons-outline:pencil-square" text="Edit" btnClass=" btn-success font-normal btn-sm "
         iconClass="text-lg" @click="editFile" v-if="btnUpdate" />
-      <Button icon="heroicons-outline:plus-sm" text="Update" btnClass=" btn-success font-normal btn-sm "
+      <Button icon="heroicons-outline:inbox-arrow-down" text="Update" btnClass=" btn-success font-normal btn-sm "
         iconClass="text-lg" @click="updateFile" v-if="isVisible" />
-      <Button icon="heroicons-outline:plus-sm" text="Close" btnClass=" btn-primary font-normal btn-sm "
+      <Button icon="heroicons-outline:x-mark" text="Close" btnClass=" btn-warning font-normal btn-sm "
         iconClass="text-lg" @click="show1 = false && isDisabled" />
+      </template>
+     
     </Modal_eidt>
-  </Card>
 
   <div class="space-y-5 profile-page">
 
     <div class="grid grid-cols-12 gap-6">
       <div class="lg:col-span-12 col-span-12 ">
         <Card :title="$t('Document-In')">
-          <div class="py-4">
-            <!-- <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')" btnClass=" btn-success font-normal btn-sm "
-          iconClass="text-lg" @click="$emit(createFile())" /> -->
+          <template #header> 
             <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')"
-              btnClass=" btn-success font-normal btn-sm " iconClass="text-lg" @click="toggleModal" />
-          </div>
+              btnClass=" btn-info font-normal btn-sm  " iconClass="text-lg" @click="toggleModal" />
+          </template>
           <vue-good-table :columns="columns" :rows="files" styleClass=" vgt-table bordered centered"
             :sort-options="{ enabled: ture }" :pagination-options="{
               enabled: true,
@@ -92,7 +92,7 @@
                   </Tooltip>
                   <Tooltip placement="top" arrow theme="danger-500">
                     <template #button>
-                      <div class="action-btn btn-outline-danger" @click="deleteFile(props.row._id)">
+                      <div class="action-btn btn-outline-danger" @click="deleteModal(props.row._id)">
                         <Icon icon="heroicons:trash" />
                       </div>
                     </template>
