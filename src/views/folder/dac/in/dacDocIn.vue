@@ -1,22 +1,13 @@
 <template>
   <Card>
-    <Modal_delete
-      :title="modalTitle"
-      :activeModal="showDelete"
-      @close="showDelete = false"
-      :themeClass="modalHeader"
-    >
+    <Modal_delete :title="modalTitle" :activeModal="showDelete" @close="showDelete = false" :themeClass="modalHeader">
       <h4 class="font-medium text-lg mb-3 text-slate-900">
         {{ $t("delete_confirm_message") }}
       </h4>
       <div class="text-right">
-        <Button
-          :text="$t('o_k')"
-          :btnClass="modalButton"
-          @click="deleteFile()"
-        ></Button>
+        <Button :text="$t('o_k')" :btnClass="modalButton" @click="deleteFile()"></Button>
       </div>
-    </Modal_delete> 
+    </Modal_delete>
     <!-- <Button text="Open Modal" @click="toggleModal" /> -->
     <Modal :title="$t('Document-In-Create')" label="Modal Create" :activeModal="show" @close="show = false">
       <Textinput label="Document No" name="num" type="text" placeholder="Document No" v-model="num" />
@@ -89,33 +80,26 @@
             }">
             <template #table-row="props">
               <span v-if="props.column.field == 'action'" class="ml-2">
-                <!-- <button type="button" class="btn btn-warning" v-on:click="edit(props.row.id)"><i
-              class="fas fa-edit"></i></button> -->
-                <!-- <Button icon="heroicons:book-open" :text="$t('view')" btnClass=" btn-primary font-normal btn-sm "
-                  iconClass="text-ls" @click="viewFile(props.row._id)" /> -->
 
-              </span>
-              <span v-if="props.column.field == 'action'" class="ml-2">
-                <!-- <button type="button" class="btn btn-warning" v-on:click="edit(props.row.id)"><i
-            class="fas fa-edit"></i></button> -->
-            <Button
-          
-            icon="heroicons-outline:plus-sm"
-            :text="$t('create_new')"
-            btnClass=" btn-primary font-normal btn-sm "
-            iconClass="text-lg"
-            @click="adduser()"
-          />
-        
-                <Button icon="heroicons:pencil-square" :text="$t('view')" btnClass=" btn-primary font-normal btn-sm "
-                  iconClass="text-ls" @click="toggleModalEdit(props.row._id)" />
+                <div class="flex justify-center space-x-3 rtl:space-x-reverse">
+                  <Tooltip placement="top" arrow theme="success-500">
+                    <template #button>
+                      <div class="action-btn btn-outline-success" @click="toggleModalEdit(props.row._id)">
+                        <Icon icon="heroicons:pencil-square" />
+                      </div>
+                    </template>
+                    <span>{{ $t("edit") }}</span>
+                  </Tooltip>
+                  <Tooltip placement="top" arrow theme="danger-500">
+                    <template #button>
+                      <div class="action-btn btn-outline-danger" @click="deleteFile(props.row._id)">
+                        <Icon icon="heroicons:trash" />
+                      </div>
+                    </template>
+                    <span>{{ $t("delete") }}</span>
+                  </Tooltip>
+                </div>
 
-              </span>
-              <span v-if="props.column.field == 'action'" class="ml-2">
-                <!-- <button type="button" class="btn btn-danger " v-on:click="remove(props.row.id)"><i
-            class="fas fa-trash-alt"></i></button> -->
-                <Button icon="heroicons-outline:trash" :text="$t('delete')" btnClass=" btn-danger font-normal btn-sm "
-                  iconClass="text-ls" @click="deleteModal(props.row._id)" />
               </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
@@ -153,7 +137,7 @@ import axios from "axios";
 import Textinput from "@/components/Textinput";
 import Textarea from "@/components/Textarea";
 import { inject, onMounted, ref, watch } from 'vue';
-
+import  Tooltip  from "@/components/Tooltip";
 // import { ref } from 'vue';
 // import profileImg from "@/assets/images/avatar/avatar.png"
 
@@ -171,6 +155,7 @@ export default {
     Modal_eidt,
     Select,
     Modal_delete,
+    Tooltip,
   },
   setup() {
 
@@ -207,7 +192,7 @@ export default {
     });
 
     const getFiles = async () => {
-    console.log("ok")
+      console.log("ok")
       files.value = []
       try {
         const response = await services.get(`files`)
@@ -225,8 +210,8 @@ export default {
 
     };
     const updateFile = async () => {
-      
-      
+
+
       const ID = fileID.value
       console.log(numEdit.value)
       console.log(titleEdit.value)
@@ -269,7 +254,7 @@ export default {
         console.error('Error delete file:', error);
         return toast.warning(error);
       }
-      
+
       toast.success("File deleted success")
       showDelete.value = !showDelete.value;
       getFiles()
@@ -300,8 +285,8 @@ export default {
 
     return {
       toggleModal, toggleModalEdit, editFile, getFiles, deleteFile, updateFile, deleteModal,
-      show, show1, toast, isDisabled, files, token, numEdit,titleEdit,
-      image, isVisible, btnUpdate,showDelete,
+      show, show1, toast, isDisabled, files, token, numEdit, titleEdit,
+      image, isVisible, btnUpdate, showDelete,
     }
   },
   data() {
