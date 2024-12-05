@@ -110,7 +110,8 @@ export default {
     themeClass: {
       type: String,
       default:
-        'bg-slate-900 dark:bg-slate-800 dark:border-b dark:border-slate-700',
+        'bg-cyan-800 dark:bg-slate-800 dark:border-b dark:border-slate-700',
+        // bg-slate-900
     },
     sizeClass: {
       type: String,

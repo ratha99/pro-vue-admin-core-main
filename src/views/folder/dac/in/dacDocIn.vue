@@ -8,7 +8,7 @@
       </div>
     </Modal_delete>
     <!-- <Button text="Open Modal" @click="toggleModal" /> -->
-    <Modal :title="$t('Document-In-Create')" label="Modal Create" :activeModal="show" @close="show = false">
+    <Modal :title="$t('Document-In-Create')" label="Modal Create" :activeModal="show" @close="show = false" >
       <Textinput label="Document No" name="num" type="text" placeholder="Document No" v-model="num" />
       <br>
       <Textarea label="Title" name="title" placeholder="Title" v-model="title" />
@@ -60,7 +60,7 @@
         <Card :title="$t('Document-In')">
           <template #header> 
             <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')"
-              btnClass=" btn-info font-normal btn-sm  " iconClass="text-lg" @click="toggleModal" />
+              btnClass="font-normal btn-sm  bg-cyan-800 text-white" iconClass="text-lg" @click="toggleModal" />
           </template>
           <vue-good-table :columns="columns" :rows="files" styleClass=" vgt-table bordered centered"
             :sort-options="{ enabled: ture }" :pagination-options="{
