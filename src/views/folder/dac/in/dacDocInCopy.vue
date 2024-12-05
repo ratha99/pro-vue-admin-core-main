@@ -1,6 +1,23 @@
 <template>
     <!-- <Button text="Open Modal" @click="toggleModal" /> -->
     <Modal
+      :title="modalTitle"
+      :activeModal="showDelete"
+      @close="showDelete = false"
+      :themeClass="modalHeader"
+    >
+      <h4 class="font-medium text-lg mb-3 text-slate-900">
+        {{ $t("delete_confirm_message") }}
+      </h4>
+      <div class="text-right">
+        <Button
+          :text="$t('o_k')"
+          :btnClass="modalButton"
+          @click="deleteFile(props.row._id)"
+        ></Button>
+      </div>
+    </Modal>
+    <Modal
       :title="$t('Document-In')"
       label="Modal title"
       :activeModal="show"

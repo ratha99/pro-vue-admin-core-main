@@ -1,5 +1,23 @@
 <template>
-  <Card> <!-- <Button text="Open Modal" @click="toggleModal" /> -->
+  <Card>
+    <Modal_delete
+      :title="modalTitle"
+      :activeModal="showDelete"
+      @close="showDelete = false"
+      :themeClass="modalHeader"
+    >
+      <h4 class="font-medium text-lg mb-3 text-slate-900">
+        {{ $t("delete_confirm_message") }}
+      </h4>
+      <div class="text-right">
+        <Button
+          :text="$t('o_k')"
+          :btnClass="modalButton"
+          @click="deleteFile()"
+        ></Button>
+      </div>
+    </Modal_delete> 
+    <!-- <Button text="Open Modal" @click="toggleModal" /> -->
     <Modal :title="$t('Document-In-Create')" label="Modal Create" :activeModal="show" @close="show = false">
       <Textinput label="Document No" name="num" type="text" placeholder="Document No" v-model="num" />
       <br>
@@ -36,9 +54,9 @@
       <Button icon="heroicons-outline:plus-sm" text="Edit" btnClass=" btn-success font-normal btn-sm "
         iconClass="text-lg" @click="editFile" v-if="btnUpdate" />
       <Button icon="heroicons-outline:plus-sm" text="Update" btnClass=" btn-success font-normal btn-sm "
-        iconClass="text-lg" @click="updaeFiie" v-if="isVisible" />
+        iconClass="text-lg" @click="updateFile" v-if="isVisible" />
       <Button icon="heroicons-outline:plus-sm" text="Close" btnClass=" btn-primary font-normal btn-sm "
-        iconClass="text-lg" @click="show1 = false && isDisabled " />
+        iconClass="text-lg" @click="show1 = false && isDisabled" />
     </Modal_eidt>
   </Card>
 
@@ -80,7 +98,16 @@
               <span v-if="props.column.field == 'action'" class="ml-2">
                 <!-- <button type="button" class="btn btn-warning" v-on:click="edit(props.row.id)"><i
             class="fas fa-edit"></i></button> -->
-                <Button icon="heroicons:pencil-square" :text="$t('view')" btnClass=" btn-warning font-normal btn-sm "
+            <Button
+          
+            icon="heroicons-outline:plus-sm"
+            :text="$t('create_new')"
+            btnClass=" btn-primary font-normal btn-sm "
+            iconClass="text-lg"
+            @click="adduser()"
+          />
+        
+                <Button icon="heroicons:pencil-square" :text="$t('view')" btnClass=" btn-primary font-normal btn-sm "
                   iconClass="text-ls" @click="toggleModalEdit(props.row._id)" />
 
               </span>
@@ -88,7 +115,7 @@
                 <!-- <button type="button" class="btn btn-danger " v-on:click="remove(props.row.id)"><i
             class="fas fa-trash-alt"></i></button> -->
                 <Button icon="heroicons-outline:trash" :text="$t('delete')" btnClass=" btn-danger font-normal btn-sm "
-                  iconClass="text-ls" @click="deleteFile(props.row._id)" />
+                  iconClass="text-ls" @click="deleteModal(props.row._id)" />
               </span>
               <span v-else>
                 {{ props.formattedRow[props.column.field] }}
@@ -110,6 +137,7 @@
 <script>
 import Modal from "@/components/Modal";
 import Modal_eidt from "@/components/Modal";
+import Modal_delete from "@/components/Modal";
 import Select from "@/components/Select";
 
 import Card from "@/components/Card";
@@ -142,6 +170,7 @@ export default {
     Modal,
     Modal_eidt,
     Select,
+    Modal_delete,
   },
   setup() {
 
@@ -149,11 +178,17 @@ export default {
     //const selectedId = ref(null);
     const show = ref(false);
     const show1 = ref(false);
+    const showDelete = ref(false);
     const toast = useToast();
     //testing
     const image = ref("");
-    const numEdit = ref("");
-    const titleEdit = ref("");
+
+    const fileID = ref("");
+
+
+    const titleEdit = ref("")
+    const numEdit = ref("")
+
     const files = ref([]);
     const btnUpdate = ref(true);
     const isVisible = ref(false);
@@ -172,7 +207,8 @@ export default {
     });
 
     const getFiles = async () => {
-      files.value =[]
+    console.log("ok")
+      files.value = []
       try {
         const response = await services.get(`files`)
         files.value = response.data
@@ -188,27 +224,65 @@ export default {
 
 
     };
-    const deleteFile = async (id) => {
+    const updateFile = async () => {
+      
+      
+      const ID = fileID.value
+      console.log(numEdit.value)
+      console.log(titleEdit.value)
       try {
-        services.common_remove(`files/${id}`)
+        console.log(ID)
+        await services.update(`files/text/${ID}`,
+          {
+            num: numEdit.value,
+            title: titleEdit.value
+          }
+
+
+        )
+
+
+      } catch (error) {
+        console.error('Error update file:', error);
+        return toast.warning(error);
+      }
+      toast.success("File update success")
+      getFiles()
+      show1.value = !show1.value
+    }
+    const deleteModal = (id) => {
+      fileID.value = id
+      // modalHeader.value =
+      //   "bg-d anger-500 bg-slate-900 dark:bg-slate-800 dark:border-b dark:border-slate-700";
+      // modalTitle.value = t("delete");
+      // modalButton.value = "btn inline-flex justify-center btn-danger";
+      // permissionID.value = row._id;
+      showDelete.value = !showDelete.value;
+    };
+    const deleteFile = async () => {
+      const ID = fileID.value
+      try {
+        services.common_remove(`files/${ID}`)
       }
       //console.log(response.data)
       catch (error) {
         console.error('Error delete file:', error);
         return toast.warning(error);
       }
+      
       toast.success("File deleted success")
+      showDelete.value = !showDelete.value;
       getFiles()
     }
     const toggleModalEdit = async (id) => {
-      
+      fileID.value = id
       show1.value = !show1.value;
       //get data from file
-      try{
-      const response = await services.get(`files/text/${id}`)
+      try {
+        const response = await services.get(`files/text/${id}`)
         const fileText = response.data
         numEdit.value = fileText.num
-        titleEdit.value = fileText.title  
+        titleEdit.value = fileText.title
       } catch (error) {
         console.log(error)
       }
@@ -225,21 +299,21 @@ export default {
     };
 
     return {
-      toggleModal, toggleModalEdit, editFile, getFiles, deleteFile,
-      show, show1, toast, isDisabled,files,token,
-      image, numEdit, titleEdit, isVisible, btnUpdate
+      toggleModal, toggleModalEdit, editFile, getFiles, deleteFile, updateFile, deleteModal,
+      show, show1, toast, isDisabled, files, token, numEdit,titleEdit,
+      image, isVisible, btnUpdate,showDelete,
     }
   },
   data() {
     return {
       //token: JSON.parse(localStorage.getItem('activeUser')),
-      services : inject('services'),
+      services: inject('services'),
       file_id: '',
       type: 'In',
       file: [],
-      userRole:'',
-      num:'',
-      title:'',
+      userRole: '',
+      num: '',
+      title: '',
       file_id: '',
       selectedFile: null,
       validExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf'],
@@ -252,7 +326,7 @@ export default {
         {
           label: "Number",
           field: "num",
-        
+
         },
         {
           label: "Title",
@@ -321,16 +395,16 @@ export default {
       // console.log(formData)
       console.log(this.title)
       try {
-        const response = await this.services.common_post('files/upload-single/', formData) 
-       
+        const response = await this.services.common_post('files/upload-single/', formData)
+
         // //const response = await axios.post('http://localhost:3000/v1/files/upload-single/', formData, {
         //   headers: {
         //     'Content-Type': 'multipart/form-data',
         //     authorization: `Bearer ${this.token.accessToken}`, // Add your here
         //   }
-        }
-        //console.log(response.data)
-        // console.log("hhhhhhhhhhhhh")
+      }
+      //console.log(response.data)
+      // console.log("hhhhhhhhhhhhh")
       catch (error) {
         console.error('Error uploading file:', error);
         return this.toast.warning(error);
