@@ -285,7 +285,7 @@ export default {
         description.value = row.description;
         rolenameKh.value = row.roleName;
         permissionID.value=row.permissions;
-        console.log("clck",roleId.value)
+        
       }
       show.value = !show.value;
     };

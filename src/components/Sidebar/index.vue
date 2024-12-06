@@ -268,8 +268,8 @@ export default defineComponent({
 
       if (services.checkPermission(perSlug[0].ADMIN)) {
         menuItems.value.push({
-          title: "permission",
-          icon: "mdi:users-group-outline",
+          title: "permission_setting",
+          icon: "carbon:settings",
           link: "permission",
         });
       }

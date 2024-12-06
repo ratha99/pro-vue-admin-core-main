@@ -209,8 +209,13 @@ export default {
 
     const roleModal = async (row) => {
      
-      userId.value = row._id
-     
+      userId.value = row._id;
+      // console.log(row.rol);
+      // console.log(row.role.roleName);
+      if (row.role!= null){
+        roleIds.value = row.role._id;
+      }
+      
       isOpenUser.value = ! isOpenUser.value
     }
 
