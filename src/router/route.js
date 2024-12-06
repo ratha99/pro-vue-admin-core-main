@@ -31,7 +31,7 @@ const routes = [
       {
         path: "dac-docout",
         name: "ឯកសារចេញ​",
-        component: () => import("@/views/folder/dacDocOut.vue"),
+        component: () => import("@/views/folder/dac/out/dacDocOut.vue"),
         meta: {
           groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
           slug: perSlug[0].DAC,
@@ -39,9 +39,41 @@ const routes = [
         },
       },
       {
+        path: "dac-docout-create",
+        name: "ឯកសារចេញ​-create",
+        component: () => import("@/views/folder/dac/out/dacDocOutCreate.vue"),
+        meta: {
+          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          slug: perSlug[0].DAC,
+          hide: false,
+        },
+      },
+      {
+        path: "dac-docout-eidt",
+        name: "ឯកសារចេញ-edit​",
+        component: () => import("@/views/folder/dac/out/dacDocOutEdit.vue"),
+        meta: {
+          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          slug: perSlug[0].DAC,
+          hide: false,
+        },
+      },
+      //DAC
+      {
         path: "dac-docin",
         name: "ឯកសារចូល​",
-        component: () => import("@/views/folder/dacDocIn.vue"),
+        component: () => import("@/views/folder/dac/in/dacDocIn.vue"),
+        meta: {
+          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          slug: perSlug[0].DAC,
+          hide: false,
+          isAuth: false,
+        },
+      },
+      {
+        path: "dac-docin-view",
+        name: "ឯកសារចូល-view​",
+        component: () => import("@/views/folder/dac/in/dacDocInView.vue"),
         meta: {
           groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
           slug: perSlug[0].DAC,
@@ -51,7 +83,7 @@ const routes = [
       {
         path: "dac-docin-create",
         name: "ឯកសារចូល-create​",
-        component: () => import("@/views/folder/dacDocInCreate.vue"),
+        component: () => import("@/views/folder/dac/in/dacDocInCreate.vue"),
         meta: {
           groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
           slug: perSlug[0].DAC,
@@ -62,7 +94,7 @@ const routes = [
       {
         path: "dac-docin-edit",
         name: "ឯកសារចូល-edit",
-        component: () => import("@/views/folder/dacDocInEdit.vue"),
+        component: () => import("@/views/folder/dac/in/dacDocInEdit.vue"),
         meta: {
           groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
           slug: perSlug[0].DAC,
@@ -70,20 +102,20 @@ const routes = [
         },
         
       },
-      {
-        path: "doe-docOut",
-        name: "ឯកសារចេញ",
-        component: () => import("@/views/folder/doeDocOut.vue"),
-        meta: {
-          groupParent: "ន.រដ្ឋាភិបាលអេឡិកត្រូនិក",
-          slug: perSlug[0].DOE,
-          hide: false,
-        },
-      },
+      // {
+      //   path: "doe-docOut",
+      //   name: "ឯកសារចេញ",
+      //   component: () => import("@/views/folder/doc/out/dacDocOut.vue"),
+      //   meta: {
+      //     groupParent: "ន.រដ្ឋាភិបាលអេឡិកត្រូនិក",
+      //     slug: perSlug[0].DOE,
+      //     hide: false,
+      //   },
+      // },
       {
         path: "doe-docin",
         name: "ឯកសារចូល",
-        component: () => import("@/views/folder/doeDocIn.vue"),
+        component: () => import("@/views/folder/doeDocIn1.vue"),
         meta: {
           groupParent: "ន.រដ្ឋាភិបាលអេឡិកត្រូនិក",
           slug: perSlug[0].DOE,

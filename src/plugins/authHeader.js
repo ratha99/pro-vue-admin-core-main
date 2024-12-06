@@ -6,7 +6,7 @@ export default function authHeader() {
                 Authorization: 'Bearer ' + user.accessToken,
                 'Access-Control-Allow-Origin': '*',
                 'Accept': 'application/json',
-                // 'Content-Type': 'multipart/form-data;',
+
             };
         } 
     }

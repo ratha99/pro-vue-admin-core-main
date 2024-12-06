@@ -1,12 +1,45 @@
 <template>
+    <!-- <Button text="Open Modal" @click="toggleModal" /> -->
+    <Modal
+      :title="$t('Document-In')"
+      label="Modal title"
+      :activeModal="show"
+      @close="show = false"
+    >
+    <Textinput
+      label="Document No"
+      name="pn"
+      type="text"
+      placeholder="Document No"
+    />
+    <br>
+    <Textarea
+      label="Title"
+      name="pd"
+      placeholder="Title"
+    />
+    <br>
+    <!-- <Select
+      label="Document Type"
+      name="dt"
+      :options="options"
+      placeholder="Document Type"
+    /> -->
+    <Fileinput label="Document" @change="onFileChange" />
+    <br>
+    <Button icon="heroicons-outline:plus-sm" text="Save" btnClass=" btn-success font-normal btn-sm "
+            iconClass="text-lg" @click="$emit(uploadFile())" />
+  </Modal>
   <div class="space-y-5 profile-page">
 
     <div class="grid grid-cols-12 gap-6">
       <div class="lg:col-span-12 col-span-12 ">
-        <Card :title="$t('Document-In')">
+        <Card :title="$t('Document-Out')">
           <div class="py-4">
-          <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')" btnClass=" btn-success font-normal btn-sm "
-            iconClass="text-lg" @click="$emit(createFile())" />
+          <!-- <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')" btnClass=" btn-success font-normal btn-sm "
+            iconClass="text-lg" @click="$emit(createFile())" /> -->
+            <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')" btnClass=" btn-success font-normal btn-sm "
+            iconClass="text-lg" @click="toggleModal" />
           </div>
           <vue-good-table :columns="columns" :rows="files" styleClass=" vgt-table bordered centered"
             :sort-options="{ enabled: ture }" :pagination-options="{
@@ -54,9 +87,25 @@
 
   </div>
 </template>
+<script setup>
+import Modal from "@/components/Modal";
+import Select from "@/components/Select";
+import { ref } from "vue";
+const show = ref(false);
+const toggleModal = () => {
+  show.value = !show.value;
+};
+const options = [
+  { value: "1", text: "Web Application" },
+  { value: "2", text: "Mobile Application" },
+
+];
+</script>
+
 <script>
 import Card from "@/components/Card";
 import { useToast } from "vue-toastification";
+// import Modal from "@/components/Modal/Modal.vue";
 
 import Icon from "@/components/Icon";
 import Button from "@/components/Button";
@@ -64,23 +113,29 @@ import Fileinput from "@/components/Fileinput"
 import 'vue-good-table-next/dist/vue-good-table-next.css'
 import { VueGoodTable } from 'vue-good-table-next';
 import axios from "axios";
+import Textinput from "@/components/Textinput";
+import Textarea from "@/components/Textarea";
 
-// import { onMounted, ref } from 'vue';
+
+// import { ref } from 'vue';
 // import profileImg from "@/assets/images/avatar/avatar.png"
+
 export default {
   components: {
     Card,
     Icon,
     Button,
     VueGoodTable,
-    Fileinput
+    Fileinput,
+    Modal,
+    Textinput,
+    Textarea,
   },
   setup() {
   
-
-   
+    
     const toast = useToast();
-    return { toast,  }
+    return { toast}
 
     // const userProfile = ref({})
     // const urlProfile = ref(profileImg)
@@ -97,6 +152,7 @@ export default {
     return {
       files: [],
       file_id:'',
+      token : JSON.parse(localStorage.getItem('activeUser')),
       selectedFile: null,
       validExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf'],
       maxSize: 2 * 1024 * 1024, // 2 MB,
@@ -134,10 +190,19 @@ export default {
  
  
   methods: {
+
     async getFiles() {
+      //const token = JSON.parse(localStorage.getItem('activeUser'))
+      //this.token = token.accessToken
+      //console.log(token.accessToken)
       try {
 
-        const response = await axios.get(`http://localhost:3000/v1/files`);
+        const response = await axios.get(`http://localhost:3000/v1/files?type=Out`,
+        {
+          headers: {
+            authorization: `Bearer ${this.token.accessToken}`
+          },
+      });
         const files = response.data;
         //this.pages = pages
         this.files = files;
@@ -147,17 +212,22 @@ export default {
       }
     },
    createFile(){
-      this.$router.push('dac-docin-create')
+      this.$router.push('dac-docout-create')
    },
    editFile(file_id){
     console.log(file_id)
-    this.$router.push('dac-docin-edit')
+    this.$router.push('dac-docout-eidt')
    },
     async deleteFile(file) {
       // console.log("Helloo")
       // console.log(file)
       try {
-        await axios.delete(`http://localhost:3000/v1/files/${file}`)
+        await axios.delete(`http://localhost:3000/v1/files/${file}`,
+        {
+          headers: {
+            authorization: `Bearer ${this.token.accessToken}`
+          },
+      });
         //location.reload()  
       }
       //console.log(response.data)

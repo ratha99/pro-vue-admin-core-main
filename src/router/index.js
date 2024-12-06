@@ -14,7 +14,9 @@ const router = createRouter({
     }
   },
 });
+
 router.beforeEach((to, from, next) => {
+  
   const titleText = to.name;
   const words = titleText.split(" ");
   const wordslength = words.length;

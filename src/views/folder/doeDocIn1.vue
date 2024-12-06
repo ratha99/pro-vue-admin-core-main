@@ -39,8 +39,6 @@ export default {
         username: userData.username,
         firstname: userData.firstname,
         lastname: userData.lastname,
-        dob: userData.dob,
-        phone: userData.phone,
         email: userData.email,
       }
 

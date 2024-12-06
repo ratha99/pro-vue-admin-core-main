@@ -65,6 +65,9 @@ export default {
     return {
       files: [],
       selectedFile: null,
+      token:'',
+      role:'',
+      type:'In',
       validExtensions: ['jpg', 'jpeg', 'png', 'gif', 'pdf'],
       maxSize: 2 * 1024 * 1024, // 2 MB,
       columns: [
@@ -127,16 +130,26 @@ export default {
         return;
       }
       // Create a FormData instance
-      const formData = new FormData();
-      formData.append('file', this.selectedFile);
-      // console.log(formData)
-      try {
+     const userRole = JSON.parse(localStorage.getItem('userData'))
+     const token = JSON.parse(localStorage.getItem('activeUser'))
+     
+     this.userRole = userRole.role._id
+     const formData = new FormData();
+    //console.log(userRole.role._id)
+    //formData.append('role', userRole.role._id);
+    //formData.append('file');
+    console.log(token)
+    formData.append('file', this.selectedFile);
+    formData.append('role', this.userRole);
+    formData.append('type', this.type);
+    try {
         const response = await axios.post('http://localhost:3000/v1/files/upload-single/', formData, {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            'Content-Type': 'multipart/form-data',
+            authorization: `Bearer ${token.accessToken}`, // Add your here
           }
         })
-        console.log(response.data)
+        //console.log(response.data)
         // console.log("hhhhhhhhhhhhh")
       } catch (error) {
         console.error('Error uploading file:', error);
