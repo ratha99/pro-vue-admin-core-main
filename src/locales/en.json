@@ -101,5 +101,9 @@
     "name": "Name",
     "show": "Show",
     "created_at": "Created at",
-    "photo": "Photo"
+    "photo": "Photo",
+    "description":"description",
+    "phone" : "phone",
+    "first name": "first name",
+    "last name": "last name"
 }

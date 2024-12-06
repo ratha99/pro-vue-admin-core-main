@@ -34,13 +34,13 @@
                 <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-2 leading-[5px]">
                   {{ $t('date_of_birth') }}
                 </div>
-                {{ userProfile.dob }} 1900-01-01
+                {{ userProfile.dob }}
               </div>
               <div class="flex-1">
                 <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-2 leading-[5px]">
-                  {{ $t('phone') }}
+                  {{ $t('gender') }}
                 </div>
-                {{ userProfile.phone }} 077 39 39 86
+                {{ userProfile.gender }} 
               </div>
             </li>
             <li class="flex space-x-3 rtl:space-x-reverse">
@@ -54,7 +54,21 @@
                 <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-2 leading-[5px]">
                   {{ $t('organization') }}
                 </div>
-                {{ userProfile.organization }} ក្រសួងប្រៃសណីយ៍ និងទូរគមនាគមន៍
+                {{ userProfile.organization }} 
+              </div>
+            </li>
+             <li class="flex space-x-3 rtl:space-x-reverse">
+              <div class="flex-1">
+                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-2 leading-[5px]">
+                  {{ $t('position') }}
+                </div>
+                {{ userProfile.position }}
+              </div>
+              <div class="flex-1">
+                <div class="uppercase text-xs text-slate-500 dark:text-slate-300 mb-2 leading-[5px]">
+                  {{ $t('phone') }}
+                </div>
+                {{ userProfile.phone }} 
               </div>
             </li>
           </ul>
@@ -68,6 +82,7 @@ import Card from "@/components/Card";
 import Icon from "@/components/Icon";
 import { onMounted, ref } from 'vue';
 import profileImg from "@/assets/images/avatar/avatar.png"
+import moment from 'moment';
 export default {
   components: {
     Card,
@@ -92,7 +107,12 @@ export default {
         username: userData.username,
         firstname: userData.firstname,
         lastname: userData.lastname,
+        dob:moment(userData.dob).format('DD/MM/YYYY'),
+        gender:userData.gender,
         email: userData.email,
+        phone: userData.phone,
+        organization: userData.organization,
+        position:userData.position,
       }
 
       if (userData.user.user_detail != null) {

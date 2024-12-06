@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div> 
     <Card noborder>
       <div class="-mt-6 -mr-6 -mb-6 -ml-6">
         <div class="mx-6 my-6 md:flex items-center">
@@ -17,7 +17,6 @@
               trigger="enter"
             />
             <Button
-              v-if="perAction.add"
               icon="heroicons-outline:plus-sm"
               :text="$t('create_new')"
               btnClass=" btn-primary font-normal btn-sm "
@@ -46,7 +45,7 @@
           <template v-slot:table-row="props">
             <span v-if="props.column.field == 'action'">
               <div class="flex justify-center space-x-3 rtl:space-x-reverse">
-                <Tooltip v-if="perAction.edit" placement="top" arrow theme="success-500">
+                <Tooltip placement="top" arrow theme="success-500">
                   <template #button>
                     <div
                       class="action-btn btn-outline-success"
@@ -56,6 +55,21 @@
                     </div>
                   </template>
                   <span>{{ $t("edit") }}</span>
+                </Tooltip>
+                <Tooltip
+                  placement="top"
+                  arrow
+                  theme="danger-500"
+                >
+                  <template #button>
+                    <div
+                      class="action-btn btn-outline-danger"
+                      @click="deleteModal(props.row)"
+                    >
+                      <Icon icon="heroicons:trash" />
+                    </div>
+                  </template>
+                  <span>{{ $t("delete") }}</span>
                 </Tooltip>
               </div>
             </span>
@@ -87,22 +101,6 @@
       :themeClass="modalHeader"
     >
       <form ref="form" @submit.prevent="onSubmit" class="space-y-4">
-        <VueSelect :label="$t('menu')">
-          <vSelect
-            :options="listMenu"
-            :reduce="(options) => options.value"
-            name="formID"
-            v-model="formID"
-          />
-        </VueSelect>
-        <VueSelect :label="$t('action')">
-          <vSelect
-            :options="listPermissionActionSelect"
-            :reduce="(options) => options.value"
-            name="permissionType"
-            v-model="permissionType"
-          />
-        </VueSelect>
         <Textinput
           :label="$t('permission_kh')"
           type="text"
@@ -112,14 +110,6 @@
           :error="nameKhError"
         />
         <Textinput
-          :label="$t('permission_en')"
-          type="text"
-          placeholder=""
-          name="nameEN"
-          v-model="nameEN"
-          :error="nameEnError"
-        />
-        <Textinput
           :label="$t('remark_slug')"
           type="text"
           placeholder=""
@@ -127,10 +117,35 @@
           v-model="slug"
           :error="slugError"
         />
+        <Textinput
+          :label="$t('description')"
+          type="text"
+          placeholder=""
+          name="desc"
+          v-model="desc"
+        />
         <div class="text-right">
           <Button :text="$t('save')" :btnClass="modalButton"></Button>
         </div>
       </form>
+    </Modal>
+
+    <Modal
+      :title="modalTitle"
+      :activeModal="showDelete"
+      @close="showDelete = false"
+      :themeClass="modalHeader"
+    >
+      <h4 class="font-medium text-lg mb-3 text-slate-900">
+        {{ $t("delete_confirm_message") }}
+      </h4>
+      <div class="text-right">
+        <Button
+          :text="$t('o_k')"
+          :btnClass="modalButton"
+          @click="deleteRole()"
+        ></Button>
+      </div>
     </Modal>
   </div>
 </template>
@@ -178,6 +193,7 @@ export default {
 
   setup() {
     const services = inject("services");
+    const showDelete = ref(false);
     const show = ref(false);
     const rows = ref([]);
     const perpage = ref(10);
@@ -192,8 +208,7 @@ export default {
     const modalButton = ref("");
     const listMenu = ref([]);
     const perAction = ref({
-      add: services.checkPermission(perSlug[0].ADD_NEW_PERMISSION),
-      edit: services.checkPermission(perSlug[0].EDIT_PERMISSION),
+      
     })
 
     const listPermissionActionSelect = ref([
@@ -237,11 +252,11 @@ export default {
     const getPermission = () => {
       services
         .get(
-          `permission?perPage=${perpage.value}&page=${current.value}&search=${searchTerm.value}`
+          `permissions`
         )
         .then((response) => {
-          rows.value = response.data.data;
-          totalRecords.value = response.data.total;
+          rows.value = response.data;
+          totalRecords.value = response.data.length;
         })
         .catch((error) => console.log(error));
     };
@@ -249,7 +264,6 @@ export default {
     // Define a validation schema
     const schema = yup.object({
       nameKH: yup.string().required("Name (KH) is a required field"),
-      nameEN: yup.string().required("Name (En) is a required field"),
       slug: yup.string().required("slug (En) is a required field"),
     });
 
@@ -258,10 +272,8 @@ export default {
     });
     // No need to define rules for fields
     const permissionID = ref(0);
-    const { value: formID } = useField("formID");
-    const { value: permissionType } = useField("permissionType");
+    const { value: desc } = useField("desc");
     const { value: nameKH, errorMessage: nameKhError } = useField("nameKH");
-    const { value: nameEN, errorMessage: nameEnError } = useField("nameEN");
     const { value: slug, errorMessage: slugError } = useField("slug");
 
     const permissionModal = (row) => {
@@ -279,25 +291,55 @@ export default {
       resetForm();
       permissionID.value = 0;
       if (row != null) {
-        permissionID.value = row.id;
-        formID.value = row.form_id;
-        permissionType.value = row.type;
-        nameKH.value = row.name_kh;
-        nameEN.value = row.name_en;
+        permissionID.value = row._id;
+        nameKH.value = row.permissionName;
+        desc.value=row.description;
         slug.value = row.slug;
       }
       show.value = !show.value;
     };
 
-    const onSubmit = handleSubmit((values, { resetForm }) => {
+    const deleteModal = (row) => {
+      modalHeader.value =
+        "bg-danger-500 bg-slate-900 dark:bg-slate-800 dark:border-b dark:border-slate-700";
+      modalTitle.value = t("delete");
+      modalButton.value = "btn inline-flex justify-center btn-danger";
+      permissionID.value = row._id;
+      showDelete.value = !showDelete.value;
+    };
+
+    const deleteRole = () => {
       services
-        .post("permission/store", {
-          form_id: formID.value,
-          type: permissionType.value,
-          name_kh: nameKH.value,
-          name_en: nameEN.value,
-          slug: slug.value,
-          id: permissionID.value,
+        .remove("permissions/", permissionID.value)
+        .then((response) => {
+          toast.success("Success", {
+            timeout: 2000,
+          });
+          showDelete.value = !showDelete.value;
+          permissionID.value = "";
+          getPermission();
+        })
+        .catch((e) => {
+          toast.error(e, {
+            timeout: 2000,
+          });
+          showDelete.value = !showDelete.value;
+        });
+    };
+
+    const onSubmit = handleSubmit((values, { resetForm }) => {
+      let url ="";
+      if(permissionID.value !=""){
+        url = `permissions/${permissionID.value}`;
+        
+      } else{
+        url = `permissions`;
+      }
+      services
+        .post(url, {
+          permissionName: values.nameKH,
+          slug: values.slug,
+          description: values.desc,
         })
 
         .then((response) => {
@@ -319,9 +361,6 @@ export default {
 
     onMounted(() => {
       getPermission();
-
-      // load data select
-      getMenu();
     });
 
     watch([current, searchTerm], async () => {
@@ -329,6 +368,9 @@ export default {
     });
 
     return {
+      deleteRole,
+      showDelete,
+      deleteModal,
       totalRecords,
       current,
       perpage,
@@ -337,19 +379,17 @@ export default {
       columns: [
         {
           label: t("menu_kh"),
-          field: "form.name_kh",
+          field: "permissionName",
         },
-        {
-          label: t("permission_kh"),
-          field: "name_kh",
-        },
-        {
-          label: t("permission_en"),
-          field: "name_en",
-        },
+      
+       
         {
           label: t("remark_slug"),
           field: "slug",
+        },
+         {
+          label: t("description"),
+          field: "description",
         },
         {
           label: t("action"),
@@ -365,17 +405,12 @@ export default {
       modalHeader,
       modalTitle,
       modalButton,
-
       listMenu,
-
-      formID,
-      permissionType,
       nameKH,
       nameKhError,
-      nameEN,
-      nameEnError,
       slug,
       slugError,
+      desc,
       listPermissionActionSelect,
       perAction,
     };

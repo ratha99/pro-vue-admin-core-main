@@ -57,9 +57,13 @@ export default {
 
 
     const onSubmit = handleSubmit(async (values) => {
-      const response = await services.post("user/change_password", {
-        old_password: oldPassword.value,
-        new_password : password.value,
+       let userData = JSON.parse(localStorage.getItem("userData"));
+      const response = await services.update("users/changepassword", {
+      
+      // id: userId,
+         id: userData._id,
+        oldPassword: oldPassword.value,
+        newPassword : password.value,
       })
       .then((res) => {
         toast.success(t("change_password_successfully"), {

@@ -6,6 +6,7 @@ const routes = [
     name: "",
     redirect: "/app/home",
     component: () => import("@/Layout/index.vue"),
+    // component: () => import("@/views/auth/login/login3.vue")
   },
 
   {
@@ -161,11 +162,11 @@ const routes = [
       },
 
       {
-        path: "test",
-        name: "test",
-        component: () => import("@/views/test/index.vue"),
+        path: "permission",
+        name: "permission",
+        component: () => import("@/views/permission/index.vue"),
         meta: {
-          slug: perSlug[0].VIEW_DASHBOARD,
+          slug: perSlug[0].PERMISSION,
           groupParent: "user management1",
         },
       },

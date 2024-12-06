@@ -70,13 +70,13 @@ const checkPermission = (slug) => {
     
     let data = JSON.parse(localStorage.getItem("userData"));
 
-    // console.log("dddd",data.role.permissions.slug);
 
-    if (typeof data.role.permissions.slug === "undefined" || typeof data.role.permissions.slug ==="") {
+    if (typeof data.role.permissions === "undefined" || typeof data.role.permissions ==="") {
         return false
         
     }
-    let p = data.role.permissions.slug.filter(e => e === slug).length;
+   
+    let p = data.role.permissions.filter(e => e.slug === slug).length;
 
     return p ? p : false;
 };

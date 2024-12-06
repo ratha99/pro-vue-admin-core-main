@@ -11,10 +11,8 @@
               :options="listRole"
               :reduce="(options) => options.value"
               v-model="roles"
-              multiple
-            />
+              />
           </VueSelect>
-          <InputGroup :label="$t('password')" placeholder="" v-model="gPassword" type="text" appendIcon="tabler:refresh" @click="generatePassword"/>
         <div class="text-right">
           <Button :text="$t('save')" btnClass="btn-primary"></Button>
         </div>
@@ -75,10 +73,11 @@ export default defineComponent({
       const { value: gPassword } = useField("gPassword");
 
       const onSubmit = handleSubmit(async (values, { resetForm }) => {
-        const response = await services.post("user_role/store", {
-          user_id: props.userId,
-          roles : values.roles,
-          password : values.gPassword,
+        
+        const response = await services.update("users/set-role", {
+          id: props.userId,
+          role : values.roles,
+         
         })
         .then((res) => {
             toast.success("Success", {
@@ -106,12 +105,12 @@ export default defineComponent({
       }
 
       const getRole = async () => {
-        await services.get(`role?perPage=1000&page=1&search=`)
+        await services.get(`roles`)
         .then(res => {
-          res.data.data.forEach(element => {
+          res.data.forEach(element => {
             listRole.value.push({
-              value: element.id,
-              label: element.name_kh,
+              value: element._id,
+              label: element.roleName,
             })
           });
         })

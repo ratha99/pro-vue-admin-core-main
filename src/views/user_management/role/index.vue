@@ -17,7 +17,6 @@
               trigger="enter"
             />
             <Button
-              v-if="perAction.add"
               icon="heroicons-outline:plus-sm"
               :text="$t('create_new')"
               btnClass=" btn-primary font-normal btn-sm "
@@ -66,7 +65,6 @@
                   <span> {{ $t("permission_setting") }}</span>
                 </Tooltip>
                 <Tooltip
-                  v-if="perAction.edit"
                   placement="top"
                   arrow
                   theme="success-500"
@@ -82,7 +80,6 @@
                   <span> {{ $t("edit") }}</span>
                 </Tooltip>
                 <Tooltip
-                  v-if="perAction.delete"
                   placement="top"
                   arrow
                   theme="danger-500"
@@ -130,18 +127,26 @@
           :label="$t('role_kh')"
           type="text"
           placeholder=""
-          name="nameKh"
-          v-model="nameKh"
-          :error="nameKhError"
+          name="rolenameKh"
+          v-model="rolenameKh"
+          :error="roleError"
         />
         <Textinput
           :label="$t('role_en')"
           type="text"
           placeholder=""
-          name="nameEn"
-          v-model="nameEn"
-          :error="nameEnError"
+          name="description"
+          v-model="description"
         />
+        <VueSelect :label="$t('permission')" :error="permissionError">
+          <vSelect
+            :options="listPermission"
+            :reduce="(options) => options.value"
+            multiple
+            name="permissionID"
+            v-model="permissionID"
+          />
+        </VueSelect>
         <div class="text-right">
           <Button :text="$t('save')" :btnClass="modalButton"></Button>
         </div>
@@ -169,6 +174,8 @@
 </template>
 
 <script>
+import VueSelect from "@/components/Select/VueSelect";
+import vSelect from "vue-select";
 import Button from "@/components/Button";
 import Dropdown from "@/components/Dropdown";
 import Card from "@/components/Card";
@@ -202,6 +209,8 @@ export default {
     Modal,
     Textinput,
     perSlug,
+    VueSelect,
+    vSelect,
   },
   setup() {
     const services = inject("services");
@@ -215,6 +224,9 @@ export default {
     const searchTerm = ref("");
     const totalRecords = ref(0);
     const pageRange = ref(5);
+
+    const listPermission = ref([]);
+    // const permissionID = ref("");
 
     const roleId = ref(0);
     const toast = useToast();
@@ -233,19 +245,19 @@ export default {
     const getRole = () => {
       services
         .get(
-          `role?perPage=${perpage.value}&page=${current.value}&search=${searchTerm.value}`
+          `roles`
         )
         .then((response) => {
-          rows.value = response.data.data;
-          totalRecords.value = response.data.total;
+          rows.value = response.data;
+          totalRecords.value = response.data.length;
         })
         .catch((error) => console.log(error));
     };
 
     // Define a validation schema
     const schema = yup.object({
-      nameKh: yup.string().required("Name (KH) is a required field"),
-      nameEn: yup.string().required("Name (En) is a required field"),
+      rolenameKh: yup.string().required("Name (KH) is a required field"),
+      permissionID: yup.mixed().nullable().required(t("please_choose_one")),
     });
 
     const { handleSubmit, resetForm } = useForm({
@@ -253,8 +265,9 @@ export default {
     });
     // No need to define rules for fields
 
-    const { value: nameKh, errorMessage: nameKhError } = useField("nameKh");
-    const { value: nameEn, errorMessage: nameEnError } = useField("nameEn");
+    const { value: rolenameKh, errorMessage: roleError } = useField("rolenameKh");
+    const { value: description } = useField("description");
+    const { value: permissionID, errorMessage: permissionError } = useField("permissionID");
 
     const roleModal = (row) => {
       modalHeader.value =
@@ -268,9 +281,11 @@ export default {
           "bg-success-500 bg-slate-900 dark:bg-slate-800 dark:border-b dark:border-slate-700";
         modalTitle.value = t("edit");
         modalButton.value = "btn inline-flex justify-center btn-success";
-        roleId.value = row.id;
-        nameEn.value = row.name_en;
-        nameKh.value = row.name_kh;
+        roleId.value = row._id;
+        description.value = row.description;
+        rolenameKh.value = row.roleName;
+        permissionID.value=row.permissions;
+        console.log("clck",roleId.value)
       }
       show.value = !show.value;
     };
@@ -280,13 +295,13 @@ export default {
         "bg-danger-500 bg-slate-900 dark:bg-slate-800 dark:border-b dark:border-slate-700";
       modalTitle.value = t("delete");
       modalButton.value = "btn inline-flex justify-center btn-danger";
-      roleId.value = row.id;
+      roleId.value = row._id;
       showDelete.value = !showDelete.value;
     };
 
     const deleteRole = () => {
       services
-        .remove("role", roleId.value)
+        .remove("roles", roleId.value)
         .then((response) => {
           toast.success("Success", {
             timeout: 2000,
@@ -304,11 +319,18 @@ export default {
     };
 
     const onSubmit = handleSubmit((values, { resetForm }) => {
+      let url ="";
+      if(roleId.value !=""){
+        url = `roles/${roleId.value}`;
+      } else{
+        url = `roles`;
+      }
+      console.log("url",url)
       services
-        .post("role/store", {
-          name_kh: values.nameKh,
-          name_en: values.nameEn,
-          id: roleId.value,
+        .post(url, {
+          roleName: values.rolenameKh,
+          description: values.description,
+          permissions: values.permissionID,
         })
         .then((response) => {
           toast.success("Success", {
@@ -336,13 +358,30 @@ export default {
       });
     };
 
+    const getPermission = async () => {
+      listPermission.value = [];
+      await services
+        .get("permissions")
+        .then((res) => {
+          res.data.forEach((element) => {
+            listPermission.value.push({
+              value: element._id,
+              label: element.permissionName,
+            });
+          });
+        })
+        .catch((error) => console.log(error));
+    };
+
     onMounted(() => {
       getRole();
+      getPermission();
     });
     watch([current, searchTerm], async () => {
       getRole();
     });
     return {
+      getPermission,
       rolePermission,
       totalRecords,
       current,
@@ -352,11 +391,11 @@ export default {
       columns: [
         {
           label: t("role_kh"),
-          field: "name_kh",
+          field: "roleName",
         },
         {
-          label: t("role_en"),
-          field: "name_en",
+          label: t("description"),
+          field: "description",
         },
         {
           label: t("action"),
@@ -367,10 +406,9 @@ export default {
       rows,
       show,
       showDelete,
-      nameKh,
-      nameKhError,
-      nameEn,
-      nameEnError,
+      rolenameKh,
+      roleError,
+      description,
       roleId,
       roleModal,
       deleteModal,
@@ -382,6 +420,9 @@ export default {
       modalButton,
       router,
       perAction,
+      listPermission,
+      permissionID,
+      permissionError
     };
   },
 };

@@ -63,9 +63,11 @@ export default defineComponent({
         const { value: cPassword, errorMessage: cPasswordError } = useField("cPassword");
 
         const onSubmit = handleSubmit(async (values, { resetForm }) => {
-            const response = await services.post("user/reset_password", {
-                    user_id: props.userId,
-                    password: values.password,
+            const response = await services.update("users/reset-password", {
+
+                    id: props.userId,
+                    newPassword: values.password,
+                    confirmPassword: values.cPassword
                 })
                 .then((res) => {
                     toast.success("Success", {

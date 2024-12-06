@@ -17,7 +17,7 @@
             merged
           />
           <Button
-            v-if="perAction.add"
+            
             icon="heroicons-outline:plus-sm"
             :text="$t('create_new')"
             btnClass=" btn-primary font-normal btn-sm "
@@ -44,7 +44,7 @@
         <template v-slot:table-row="props">
           <span v-if="props.column.field == 'action'">
             <div class="flex justify-center space-x-3 rtl:space-x-reverse">
-              <Tooltip v-if="perAction.setRole" placement="top" arrow theme="info-500">
+              <Tooltip placement="top" arrow theme="info-500">
                 <template #button>
                   <div class="action-btn btn-outline-info" @click="roleModal(props.row)">
                     <Icon icon="grommet-icons:user-settings" />
@@ -52,7 +52,7 @@
                 </template>
                 <span>{{ $t("role") }}</span>
               </Tooltip>
-              <Tooltip  v-if="perAction.changePwd" placement="top" arrow theme="warning-500">
+              <Tooltip  placement="top" arrow theme="warning-500">
                 <template #button>
                   <div class="action-btn btn-outline-warning" @click="pwdModal(props.row)">
                     <Icon icon="material-symbols:history" />
@@ -60,7 +60,7 @@
                 </template>
                 <span>{{ $t("change_password") }}</span>
               </Tooltip>
-              <Tooltip  v-if="perAction.edit" placement="top" arrow theme="success-500" >
+              <Tooltip placement="top" arrow theme="success-500" >
                 <template #button>
                   <div class="action-btn btn-outline-success" @click="editUser(props.row)">
                     <Icon icon="heroicons:pencil-square" />
@@ -73,16 +73,14 @@
           <span v-if="props.column.field == 'status'">
             <div class="flex justify-center space-x-3 rtl:space-x-reverse">
               <Switch
-                v-if="props.row.user_info.status == 1"
+                v-if="props.row.active == 1"
                 active
                 class="mb-5"
                 activeClass="bg-primary-500"
                 badge
-                :disabled="perAction.status"
                 @click="updateStatus(props.row)"
               />
               <Switch
-                :disabled="perAction.status"
                 v-else
                 class="mb-5"
                 activeClass="bg-primary-500"
@@ -185,10 +183,11 @@ export default {
     })
 
     const getUser = async () =>{
-      services.get(`user?perPage=${perpage.value}&page=${current.value}&search=${searchTerm.value}`)
+      services.get(`users`)
       .then(response => {
-        rows.value = response.data.data
-        totalRecords.value = response.data.total;
+        // console.log(response.data)
+        rows.value = response.data;
+        totalRecords.value = response.data.length;
       })
       .catch(error => console.log(error))
     }
@@ -202,24 +201,21 @@ export default {
         path: '/edituser',
         name: 'edituser',
         params: {
-          id: row.user_id
+          id: row._id
+         
         }
       })
     }
 
     const roleModal = async (row) => {
-      userId.value = row.user_id
-      if(row.user_info.roles.length > 0){
-        roleIds.value = []
-        row.user_info.roles.forEach(ele => {
-          roleIds.value.push(ele.id)
-        })
-      }
+     
+      userId.value = row._id
+     
       isOpenUser.value = ! isOpenUser.value
     }
 
     const pwdModal = (row) => {
-      userId.value = row.user_id
+      userId.value = row._id
       isOpenPwd.value = ! isOpenPwd.value
     }
 
@@ -233,7 +229,7 @@ export default {
     }
 
     const updateStatus = async (row) => {
-      await services.get(`user/activeInactiveUser/${row.user_id}`)
+      await services.update(`users/switchstatus/${row._id}`)
       .then(res => {
         toast.success("Success", {
             timeout: 2000,
@@ -256,24 +252,24 @@ export default {
       searchTerm,
       columns: [
         {
-          label: t("full_name"),
-          field: "fullname",
+          label: t("firstname"),
+          field: "firstname",
         },
         {
-          label: t("phone"),
-          field: "user_info.phone",
+          label: t("lastname"),
+          field: "lastname",
         },
         {
           label: t("gender"),
           field: "gender",
         },
         {
-          label: t("position"),
-          field: "org_position.name",
+          label: t("phone"),
+          field: "phone",
         },
         {
-          label: t("organization"),
-          field: "organization.name",
+          label: t("email"),
+          field: "email",
         },
         {
           label: t("action"),

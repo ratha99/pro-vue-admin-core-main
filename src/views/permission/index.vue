@@ -1,6 +1,19 @@
 <template>
   <div>
     Testing Page
+    <div>
+      <Card >
+       
+            <Button
+              icon="heroicons-outline:arrow-left"
+              :text="$t('Back')"
+              btnClass=" btn-primary font-normal btn-sm "
+              iconClass="text-lg"
+              @click="$emit(backFile())"
+            />
+    
+      </Card>
+    </div>
   </div>
 </template>
 
@@ -14,12 +27,12 @@ import InputGroup from "@/components/InputGroup";
 import Pagination from "@/components/Pagination";
 import { MenuItem } from "@headlessui/vue";
 import window from "@/mixins/window";
-import { inject, ref,onMounted, watch  } from "vue";
+import { inject, ref, onMounted, watch } from "vue";
 import Modal from "@/components/Modal";
 import Textinput from "@/components/Textinput";
 import VueSelect from "@/components/Select/VueSelect";
 import vSelect from "vue-select";
-import Switch from '@/components/Switch';
+import Switch from "@/components/Switch";
 export default {
   mixins: [window],
   components: {
@@ -37,14 +50,9 @@ export default {
     vSelect,
     Switch,
   },
-  setup(){
-  
-
-    onMounted(async () => {
-    })
-    return {
-     
-    }
+  setup() {
+    onMounted(async () => {});
+    return {};
   },
 };
 </script>
