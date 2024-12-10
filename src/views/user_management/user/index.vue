@@ -29,7 +29,6 @@
 
       <vue-good-table
         :columns="columns" styleClass="vgt-table bordered centered lesspadding2 table-head"
-        mode="remote"
         :rows="rows"
         :pagination-options="{
           enabled: true,
@@ -247,6 +246,7 @@ export default {
       await getUser()
     })
     watch([current, searchTerm], async () => {
+      console.log("searchTerm", searchTerm);
       getUser();
     })
     return {
@@ -257,11 +257,11 @@ export default {
       searchTerm,
       columns: [
         {
-          label: t("firstname"),
+          label: t("first name"),
           field: "firstname",
         },
         {
-          label: t("lastname"),
+          label: t("last name"),
           field: "lastname",
         },
         {

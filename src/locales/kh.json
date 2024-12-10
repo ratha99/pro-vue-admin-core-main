@@ -42,8 +42,8 @@
     "delete_confirm_message": "តើ​អ្នក​ប្រាកដទេថា​លុប​ទិន្នន័យ​នេះ​?",
     "create_new": "បង្កើតថ្មី",
     "edit": "កែប្រែ",
-    "permission_kh": "សិទ្ទិ",
-    "permission_en": "សិទ្ទិ (EN)",
+    "permission_kh": "សិទ្ធិ",
+    "permission_en": "សិទ្ធិ (EN)",
     "remark_slug": "សម្គាល់ (Slug)",
     "action": "សកម្មភាព",
     "add": "បន្ថែម",
@@ -51,7 +51,7 @@
     "other": "ផ្សេងៗ",
     "role_kh": "តួនាទី",
     "role_en": "តួនាទី (EN)",
-    "permission_setting": "កំណត់សិទ្ទិ",
+    "permission_setting": "កំណត់សិទ្ធិ",
     "adduser": "បង្កើតអ្នកប្រើប្រាស់",
     "This_field_is_required": "ត្រូវតែបំពេញ",
     "please_choose_one": "សូមជ្រើសរើសមួយ",
@@ -107,7 +107,14 @@
     "description":"ពិពណ៌នា",
     "phone" : "ទូរស័ព្ទ",
     "first name": "គោត្តនាម",
-    "last name": "នាម"
-   
+    "last name": "នាម",
+    "dac":"ន.កម្មវិធីកុំព្យូទ័រ",
+    "dac-docin":"ឯកសារចូល",
+    "dac docin":"ឯកសារចូល",
+    "Document-In-Create":"បង្កើតឯកសារចូល",
+    "Document-In-Edit":"កែប្រែឯកសារចូល",
+    "Document-In":"ឯកសារចូល",
+    "foler":"ថតឯកសារ",
+    "doe":"ន.រដ្ឋបាលអេឡិកត្រូនិក"
 
 }

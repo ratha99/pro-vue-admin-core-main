@@ -1,5 +1,4 @@
 <template>
-  <div>
     <Modal_delete :title="modalTitle" :activeModal="showDelete" @close="showDelete = false" :themeClass="modalHeader">
       <h4 class="font-medium text-lg mb-3 text-slate-900">
         {{ $t("delete_confirm_message") }}
@@ -53,83 +52,72 @@
       </template>
      
     </Modal_eidt>
-    
-    <div class="space-y-5 profile-page">
-      <div class="grid grid-cols-12 gap-6">
-        <div class="lg:col-span-12 col-span-12">
-          <Card :title="$t('Document-In')">
-            <template #header>
-              <Button
-                icon="heroicons-outline:plus-sm"
-                :text="$t('create_new')"
-                btnClass="font-normal btn-sm  bg-cyan-800 text-white"
-                iconClass="text-lg"
-                @click="toggleModal"
-              />
+
+  <div class="space-y-5 profile-page">
+
+    <div class="grid grid-cols-12 gap-6">
+      <div class="lg:col-span-12 col-span-12 ">
+        <Card :title="$t('Document-In')">
+          <template #header> 
+            <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')"
+              btnClass="font-normal btn-sm  bg-cyan-800 text-white" iconClass="text-lg" @click="toggleModal" />
+          </template>
+          <vue-good-table :columns="columns" :rows="files" styleClass=" vgt-table bordered centered"
+            :sort-options="{ enabled: ture }" :pagination-options="{
+              enabled: true,
+              perPage: perpage,
+            }" :search-options="{
+              enabled: true,
+              externalQuery: searchTerm,
+            }" :select-options="{
+              enabled: true,
+              selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
+              selectioninfoClass: 'custom-class',
+              selectionText: 'rows selected',
+              clearSelectionText: 'clear',
+              disableSelectinfo: true, // disable the select info-500 panel on top
+              selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
+            }">
+            <template #table-row="props">
+              <span v-if="props.column.field == 'action'" class="ml-2">
+
+                <div class="flex justify-center space-x-3 rtl:space-x-reverse">
+                  <Tooltip placement="top" arrow theme="success-500">
+                    <template #button>
+                      <div class="action-btn btn-outline-success" @click="toggleModalEdit(props.row._id)">
+                        <Icon icon="heroicons:pencil-square" />
+                      </div>
+                    </template>
+                    <span>{{ $t("edit") }}</span>
+                  </Tooltip>
+                  <Tooltip placement="top" arrow theme="danger-500">
+                    <template #button>
+                      <div class="action-btn btn-outline-danger" @click="deleteModal(props.row._id)">
+                        <Icon icon="heroicons:trash" />
+                      </div>
+                    </template>
+                    <span>{{ $t("delete") }}</span>
+                  </Tooltip>
+                </div>
+
+              </span>
+              <span v-else>
+                {{ props.formattedRow[props.column.field] }}
+              </span>
             </template>
-            <vue-good-table
-              :columns="columns"
-              :rows="files"
-              styleClass=" vgt-table bordered centered"
-              :sort-options="{ enabled: ture }"
-              :pagination-options="{
-                enabled: true,
-                perPage: 10,
-              }"
-              :search-options="{
-                enabled: true,
-                externalQuery: searchTerm,
-              }"
-              :select-options="{
-                enabled: true,
-                selectOnCheckboxOnly: true, // only select when checkbox is clicked instead of the row
-                selectioninfoClass: 'custom-class',
-                selectionText: 'rows selected',
-                clearSelectionText: 'clear',
-                disableSelectinfo: true, // disable the select info-500 panel on top
-                selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
-              }"
-            >
-              <template #table-row="props">
-                <span v-if="props.column.field == 'action'" class="ml-2">
-                  <div
-                    class="flex justify-center space-x-3 rtl:space-x-reverse"
-                  >
-                    <Tooltip placement="top" arrow theme="success-500">
-                      <template #button>
-                        <div
-                          class="action-btn btn-outline-success"
-                          @click="toggleModalEdit(props.row._id)"
-                        >
-                          <Icon icon="heroicons:pencil-square" />
-                        </div>
-                      </template>
-                      <span>{{ $t("edit") }}</span>
-                    </Tooltip>
-                    <Tooltip placement="top" arrow theme="danger-500">
-                      <template #button>
-                        <div
-                          class="action-btn btn-outline-danger"
-                          @click="deleteModal(props.row._id)"
-                        >
-                          <Icon icon="heroicons:trash" />
-                        </div>
-                      </template>
-                      <span>{{ $t("delete") }}</span>
-                    </Tooltip>
-                  </div>
-                </span>
-                <span v-else>
-                  {{ props.formattedRow[props.column.field] }}
-                </span>
-              </template>
-            </vue-good-table>
-          </Card>
-        </div>
+
+          </vue-good-table>
+
+        </Card>
       </div>
+
     </div>
+
+
   </div>
 </template>
+
+
 <script>
 import Modal from "@/components/Modal";
 import Modal_eidt from "@/components/Modal";
@@ -408,7 +396,7 @@ export default {
 
       }
 
-      //this.getFiles()
+      this.getFiles()
       this.show = false
       //location.reload()
 

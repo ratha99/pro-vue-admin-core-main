@@ -25,11 +25,11 @@
             />
           </div>
         </div>
-
+            <!-- mode="remote" property to use external search-->
         <vue-good-table
           :columns="columns"
           styleClass="vgt-table bordered centered lesspadding2 table-head"
-          mode="remote"
+        
           :rows="rows"
           
           :pagination-options="{

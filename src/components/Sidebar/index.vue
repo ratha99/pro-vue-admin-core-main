@@ -159,14 +159,14 @@ export default defineComponent({
     const getMenu = async () => {
       menuItems.value.push({
         isHeadr: true,
-        title: "ថតឯកសារ",
+        title: "foler",
       });
       // for slug Admin
 
       if (services.checkPermission(perSlug[0].ADMIN)) {
         
          menuItems.value.push({
-          title: "ន. កម្មវីធីកុំព្យទ័រ",
+          title: "dac",
           icon: "stash:folder-solid",
           link: "#",
           isOpen: true,
@@ -185,7 +185,7 @@ export default defineComponent({
         });
         
         menuItems.value.push({
-          title: "ន.រដ្ឋបាលអេឡិចត្រូនិក",
+          title: "doe",
           icon: "stash:folder-solid",
           link: "department",
           isOpen: true,
@@ -247,7 +247,7 @@ export default defineComponent({
       // for slug DOE
       if (services.checkPermission(perSlug[0].DOE)) {
         menuItems.value.push({
-          title: "ន.រដ្ឋបាលអេឡិចត្រូនិក",
+          title: "doe",
           icon: "stash:folder-solid",
           link: "department",
           isOpen: true,

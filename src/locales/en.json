@@ -105,6 +105,12 @@
     "description":"description",
     "phone" : "phone",
     "first name": "first name",
-    "last name": "last name"
-   
+    "last name": "last name",
+    "dac-docin":"dac",
+    "dac docin":"dac",
+    "Document-In-Create":"Document-In-Create",
+    "Document-In-Edit":"Document-In-Edit",
+    "Document-In":"Document-In",
+    "foler":"folder",
+    "doe":"doe"
 }

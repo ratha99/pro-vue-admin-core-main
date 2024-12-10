@@ -33,7 +33,7 @@ const routes = [
         name: "ឯកសារចេញ​",
         component: () => import("@/views/folder/dac/out/dacDocOut.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
@@ -43,7 +43,7 @@ const routes = [
         name: "ឯកសារចេញ​-create",
         component: () => import("@/views/folder/dac/out/dacDocOutCreate.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
@@ -53,7 +53,7 @@ const routes = [
         name: "ឯកសារចេញ-edit​",
         component: () => import("@/views/folder/dac/out/dacDocOutEdit.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
@@ -61,10 +61,10 @@ const routes = [
       //DAC
       {
         path: "dac-docin",
-        name: "ឯកសារចូល​",
+        name: "dac-docin",
         component: () => import("@/views/folder/dac/in/dacDocIn.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
           isAuth: false,
@@ -75,7 +75,7 @@ const routes = [
         name: "ឯកសារចូល-view​",
         component: () => import("@/views/folder/dac/in/dacDocInView.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
@@ -85,7 +85,7 @@ const routes = [
         name: "ឯកសារចូល-create​",
         component: () => import("@/views/folder/dac/in/dacDocInCreate.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
@@ -96,7 +96,7 @@ const routes = [
         name: "ឯកសារចូល-edit",
         component: () => import("@/views/folder/dac/in/dacDocInEdit.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
