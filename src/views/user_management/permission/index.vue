@@ -3,7 +3,7 @@
     <Card noborder>
       <div class="-mt-6 -mr-6 -mb-6 -ml-6">
         <div class="mx-6 my-6 md:flex items-center">
-          <h6 class="flex-1 md:mb-0 mb-3">{{ $t("permission") }}</h6>
+          <h6 class="flex-1 md:mb-0 mb-3">{{ $t("permission_setting") }}</h6>
           <div
             class="md:flex md:space-x-3 items-center flex-none rtl:space-x-reverse"
             :class="window.width < 768 ? 'space-x-rb' : ''"
@@ -25,10 +25,11 @@
             />
           </div>
         </div>
+         <!-- mode="remote" property to use external search -->
         <vue-good-table
           :columns="columns"
           styleClass="vgt-table bordered centered lesspadding2 table-head"
-          mode="remote"
+         
           :rows="rows"
           :pagination-options="{
             enabled: true,

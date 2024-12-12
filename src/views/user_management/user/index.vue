@@ -29,7 +29,6 @@
 
       <vue-good-table
         :columns="columns" styleClass="vgt-table bordered centered lesspadding2 table-head"
-        mode="remote"
         :rows="rows"
         :pagination-options="{
           enabled: true,
@@ -209,8 +208,13 @@ export default {
 
     const roleModal = async (row) => {
      
-      userId.value = row._id
-     
+      userId.value = row._id;
+      // console.log(row.rol);
+      // console.log(row.role.roleName);
+      if (row.role!= null){
+        roleIds.value = row.role._id;
+      }
+      
       isOpenUser.value = ! isOpenUser.value
     }
 
@@ -242,6 +246,7 @@ export default {
       await getUser()
     })
     watch([current, searchTerm], async () => {
+      console.log("searchTerm", searchTerm);
       getUser();
     })
     return {
@@ -252,11 +257,11 @@ export default {
       searchTerm,
       columns: [
         {
-          label: t("firstname"),
+          label: t("first name"),
           field: "firstname",
         },
         {
-          label: t("lastname"),
+          label: t("last name"),
           field: "lastname",
         },
         {
