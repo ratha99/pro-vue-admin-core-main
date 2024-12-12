@@ -87,6 +87,8 @@ export default {
         icon: "heroicons-outline:login",
         link: () => {
           localStorage.removeItem("activeUser");
+          // localStorage.removeItem("userData");
+          window.location.reload()
           router.push("/login");
         },
       },

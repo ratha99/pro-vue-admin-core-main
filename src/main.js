@@ -23,6 +23,7 @@ import i18n from "./i18n";
 import requestService from "./plugins/requestService";
 import VueHtmlToPaper from "vue-html-to-paper";
 
+
 const pinia = createPinia()
 
 // vue use
@@ -43,6 +44,7 @@ const app = createApp(App)
     .use(VCalendar)
     .use(i18n)
     .use(VueHtmlToPaper)
+   
 
 app.config.globalProperties.$store = {};
 app.mount("#app");

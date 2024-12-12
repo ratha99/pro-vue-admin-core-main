@@ -30,30 +30,30 @@ const routes = [
     children: [
       {
         path: "dac-docout",
-        name: "ឯកសារចេញ​",
-        component: () => import("@/views/folder/dac/out/dacDocOut.vue"),
+        name: "docOut",
+        component: () => import("@/views/folder/dac/dacDocOut.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
       },
       {
         path: "dac-docout-create",
-        name: "ឯកសារចេញ​-create",
+        name: "docOut-create",
         component: () => import("@/views/folder/dac/out/dacDocOutCreate.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
       },
       {
         path: "dac-docout-eidt",
-        name: "ឯកសារចេញ-edit​",
+        name: "docOut-edit​",
         component: () => import("@/views/folder/dac/out/dacDocOutEdit.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
@@ -61,10 +61,10 @@ const routes = [
       //DAC
       {
         path: "dac-docin",
-        name: "ឯកសារចូល​",
-        component: () => import("@/views/folder/dac/in/dacDocIn.vue"),
+        name: "dac-docin",
+        component: () => import("@/views/folder/dac/dacDocIn.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
           isAuth: false,
@@ -75,7 +75,7 @@ const routes = [
         name: "ឯកសារចូល-view​",
         component: () => import("@/views/folder/dac/in/dacDocInView.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
@@ -85,7 +85,7 @@ const routes = [
         name: "ឯកសារចូល-create​",
         component: () => import("@/views/folder/dac/in/dacDocInCreate.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
@@ -96,28 +96,28 @@ const routes = [
         name: "ឯកសារចូល-edit",
         component: () => import("@/views/folder/dac/in/dacDocInEdit.vue"),
         meta: {
-          groupParent: "ន.កម្មវិធីកុំព្យូទ័រ",
+          groupParent: "dac",
           slug: perSlug[0].DAC,
           hide: false,
         },
         
       },
-      // {
-      //   path: "doe-docOut",
-      //   name: "ឯកសារចេញ",
-      //   component: () => import("@/views/folder/doc/out/dacDocOut.vue"),
-      //   meta: {
-      //     groupParent: "ន.រដ្ឋាភិបាលអេឡិកត្រូនិក",
-      //     slug: perSlug[0].DOE,
-      //     hide: false,
-      //   },
-      // },
+      {
+        path: "doe-docOut",
+        name: "ឯកសារចេញ",
+        component: () => import("@/views/folder/doe/doeDocOut.vue"),
+        meta: {
+          groupParent: "doe",
+          slug: perSlug[0].DOE,
+          hide: false,
+        },
+      },
       {
         path: "doe-docin",
         name: "ឯកសារចូល",
-        component: () => import("@/views/folder/doeDocIn1.vue"),
+        component: () => import("@/views/folder/doe/doeDocIn.vue"),
         meta: {
-          groupParent: "ន.រដ្ឋាភិបាលអេឡិកត្រូនិក",
+          groupParent: "doe",
           slug: perSlug[0].DOE,
           hide: false,
         },
