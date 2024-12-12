@@ -161,11 +161,10 @@ export default defineComponent({
         isHeadr: true,
         title: "foler",
       });
-      // for slug Admin
 
+      // for slug Admin
       if (services.checkPermission(perSlug[0].ADMIN)) {
-        
-         menuItems.value.push({
+        menuItems.value.push({
           title: "dac",
           icon: "stash:folder-solid",
           link: "#",
@@ -183,7 +182,7 @@ export default defineComponent({
             },
           ],
         });
-        
+
         menuItems.value.push({
           title: "doe",
           icon: "stash:folder-solid",
@@ -202,7 +201,7 @@ export default defineComponent({
             },
           ],
         });
-        
+
         menuItems.value.push({
           isHeadr: true,
           title: "user management",
@@ -219,53 +218,54 @@ export default defineComponent({
           icon: "bx:user-pin",
           link: "role",
         });
-
-       
       }
 
       // for slug DAC
       if (services.checkPermission(perSlug[0].DAC)) {
-        menuItems.value.push({
-          title: "ន. កម្មវីធីកុំព្យទ័រ",
-          icon: "stash:folder-solid",
-          link: "#",
-          isOpen: true,
-          child: [
-            {
-              childtitle: "ឯកសារចេញ",
-              childlink: "dac-docout",
-              icon: "fluent:folder-arrow-right-48-regular",
-            },
-            {
-              childtitle: "ឯកសារចូល",
-              childlink: "dac-docin",
-              icon: "fluent:folder-arrow-left-48-regular",
-            },
-          ],
-        });
+        if (!menuItems.value.find((item) => item.title === "dac")) {
+          menuItems.value.push({
+            title: "ន. កម្មវីធីកុំព្យទ័រ",
+            icon: "stash:folder-solid",
+            link: "#",
+            isOpen: true,
+            child: [
+              {
+                childtitle: "ឯកសារចេញ",
+                childlink: "dac-docout",
+                icon: "fluent:folder-arrow-right-48-regular",
+              },
+              {
+                childtitle: "ឯកសារចូល",
+                childlink: "dac-docin",
+                icon: "fluent:folder-arrow-left-48-regular",
+              },
+            ],
+          });
+        }
       }
       // for slug DOE
       if (services.checkPermission(perSlug[0].DOE)) {
-        menuItems.value.push({
-          title: "doe",
-          icon: "stash:folder-solid",
-          link: "department",
-          isOpen: true,
-          child: [
-            {
-              childtitle: "ឯកសារចេញ",
-              childlink: "doe-docOut",
-              icon: "fluent:folder-arrow-right-48-regular",
-            },
-            {
-              childtitle: "ឯកសារចូល",
-              childlink: "doe-docIn",
-              icon: "fluent:folder-arrow-left-48-regular",
-            },
-          ],
-        });
+        if (!menuItems.value.find((item) => item.title === "doe")) {
+          menuItems.value.push({
+            title: "doe",
+            icon: "stash:folder-solid",
+            link: "department",
+            isOpen: true,
+            child: [
+              {
+                childtitle: "ឯកសារចេញ",
+                childlink: "doe-docOut",
+                icon: "fluent:folder-arrow-right-48-regular",
+              },
+              {
+                childtitle: "ឯកសារចូល",
+                childlink: "doe-docIn",
+                icon: "fluent:folder-arrow-left-48-regular",
+              },
+            ],
+          });
+        }
       }
-
       if (services.checkPermission(perSlug[0].ADMIN)) {
         menuItems.value.push({
           title: "permission_setting",
@@ -273,46 +273,6 @@ export default defineComponent({
           link: "permission",
         });
       }
-
-      // if (services.checkPermission(perSlug[0].DAC)) {
-      //   menuItems.value.push({
-      //     title: "ន. កម្មវីធីកុំព្យទ័រ",
-      //     icon: "mdi:users-group-outline",
-      //     link: "test",
-      //   });
-      // }
-
-      // if (services.checkPermission(perSlug[0].doe)) {
-      //   menuItems.value.push({
-      //     title: "doe",
-      //     icon: "mdi:users-group-outline",
-      //     link: "doe_link",
-      //   });
-      // }
-
-      // if (services.checkPermission(perSlug[0].VIEW_ROLE_LIST)) {
-      //   menuItems.value.push({
-      //     title: "role",
-      //     icon: "bx:user-pin",
-      //     link: "role",
-      //   });
-      // }
-
-      // if (services.checkPermission(perSlug[0].VIEW_MENU_LIST)) {
-      //   menuItems.value.push({
-      //     title: "menu",
-      //     icon: "dashicons:welcome-widgets-menus",
-      //     link: "menu",
-      //   });
-      // }
-
-      // if (services.checkPermission(perSlug[0].VIEW_PERMISSION_LIST)) {
-      //   menuItems.value.push({
-      //     title: "permission",
-      //     icon: "fa6-solid:list-check",
-      //     link: "permission",
-      //   });
-      // }
     };
     const shadowbase = ref(false);
     const simplebarInstance = ref(null);
