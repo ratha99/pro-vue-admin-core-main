@@ -33,7 +33,7 @@
     "gsap": "^3.11.3",
     "leaflet": "^1.9.2",
     "moment": "^2.29.4",
-    "pdf-viewer-vue": "^0.2.7",
+    "pdf-vue3": "^1.0.12",
     "pinia": "^2.0.28",
     "postcss": "^8",
     "simplebar": "^5.3.8",

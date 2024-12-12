@@ -234,11 +234,7 @@ export default {
             num: numEdit.value,
             title: titleEdit.value
           }
-
-
         )
-
-
       } catch (error) {
         console.error('Error update file:', error);
         return toast.warning(error);

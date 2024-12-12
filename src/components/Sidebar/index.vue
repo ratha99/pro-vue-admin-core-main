@@ -1,4 +1,5 @@
 <template>
+  
   <div :class="this.$store.themeSettingsStore.semidark ? 'dark' : ''">
     <div
       :class="`sidebar-wrapper bg-white dark:bg-slate-800    ${
@@ -160,10 +161,12 @@ export default defineComponent({
       menuItems.value.push({
         isHeadr: true,
         title: "foler",
+
       });
 
       // for slug Admin
       if (services.checkPermission(perSlug[0].ADMIN)) {
+
         menuItems.value.push({
           title: "dac",
           icon: "stash:folder-solid",
@@ -245,6 +248,7 @@ export default defineComponent({
       }
       // for slug DOE
       if (services.checkPermission(perSlug[0].DOE)) {
+
         if (!menuItems.value.find((item) => item.title === "doe")) {
           menuItems.value.push({
             title: "doe",
@@ -265,6 +269,25 @@ export default defineComponent({
             ],
           });
         }
+        menuItems.value.push({
+          title: "doe",
+          icon: "stash:folder-solid",
+          link: "department",
+          isOpen: true,
+          child: [
+            {
+              childtitle: "ឯកសារចេញ",
+              childlink: "doe-docOut",
+              icon: "fluent:folder-arrow-right-48-regular",
+            },
+            {
+              childtitle: "ឯកសារចូល",
+              childlink: "doe-docIn",
+              icon: "fluent:folder-arrow-left-48-regular",
+            },
+          ],
+        });
+
       }
       if (services.checkPermission(perSlug[0].ADMIN)) {
         menuItems.value.push({
