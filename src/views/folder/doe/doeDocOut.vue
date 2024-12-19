@@ -47,13 +47,13 @@
           <div class="text-right">
             <Button icon="heroicons-outline:pencil-square" :text="$t('save')"
               btnClass=" btn-success font-normal btn-sm " iconClass="text-lg"></Button>
-            <Button icon="heroicons-outline:x-mark" :text="$t('close')" btnClass=" btn-warning font-normal btn-sm "
-              iconClass="text-lg" @click="show = false" class="ml-4" />
+            <!-- <Button icon="heroicons-outline:x-mark" :text="$t('close')" btnClass=" btn-warning font-normal btn-sm "
+              iconClass="text-lg" @click="show = false" class="ml-4" /> -->
           </div>
         </form>
       </Modal>
       <!--Modal Edit -->
-      <Modal :title="$t('Document-In-Edit')" label="Modal Edit" :activeModal="show1" @close="show1 = false">
+      <Modal :title="$t('Document-Out-Edit')" label="Modal Edit" :activeModal="show1" @close="show1 = false">
         <form @submit.prevent="updateFile" class="space-y-4">
           <Textinput :label="$t('Document No')" name="num" type="text" :placeholder="$t('Document No')" v-model="numEdit"
             :disabled="isDisabled" :error="numEditError" />
@@ -70,8 +70,8 @@
 
             <!-- <Button icon="heroicons-outline:inbox-arrow-down" text="Update" btnClass=" btn-success font-normal btn-sm "
         iconClass="text-lg" v-if="isVisible" /> -->
-            <Button icon="heroicons-outline:x-mark" text="Close" btnClass=" btn-warning font-normal btn-sm "
-              iconClass="text-lg" @click="show1 = false && isDisabled" class="ml-4" />
+            <!-- <Button icon="heroicons-outline:x-mark" text="Close" btnClass=" btn-warning font-normal btn-sm "
+              iconClass="text-lg" @click="show1 = false && isDisabled" class="ml-4" /> -->
           </div>
           <br>
 
@@ -187,7 +187,7 @@ import Textarea from "@/components/Textarea";
 import { inject, onMounted, ref, watch } from 'vue';
 import Tooltip from "@/components/Tooltip";
 import * as yup from "yup";
-import { useField, useForm } from "vee-validate";
+import { useField, useForm, useResetForm } from "vee-validate";
 import PDFViewer from 'pdf-vue3';
 import { perSlug } from "../../../constant/permission";
 const apiUrl = import.meta.env.VITE_API_URL_PDF;
@@ -237,7 +237,7 @@ export default {
 
     const selectedFile = ref("")
     const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf']
-    const maxSize = 2 * 1024 * 1024;// 2 MB,
+    const maxSize = 15 * 1024 * 1024;// 15 MB,
 
     // Define a validation schema
     const schema = yup.object({
@@ -246,9 +246,13 @@ export default {
       numEdit: yup.string().required("Number is a required field"),
       titleEdit: yup.string().required("Title is a required field"),
     });
-
-    const { handleSubmit } = useForm({
+    const formValues = {
+      num: "",
+      title: "",
+    };
+    const { handleSubmit, resetForm } = useForm({
       validationSchema: schema,
+      initialValues: formValues,
 
     });
     const { value: num, errorMessage: numError } = useField("num");
@@ -258,6 +262,7 @@ export default {
     //function
     const toggleCreate = () => {
       show.value = !show.value;
+      resetForm()
       titleEdit.value = "test";
       numEdit.value = "test";
       title.value = "";
@@ -485,6 +490,7 @@ export default {
           // },
         })
         .then((response) => {
+          resetForm()
           toast.success("Success", {
             timeout: 2000,
           });

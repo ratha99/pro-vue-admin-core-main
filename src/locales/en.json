@@ -111,6 +111,7 @@
     "docOut":"Doc Out",
     "Document-In-Create":"Document-In-Create",
     "Document-Out-Create":"Document-Out-Create",
+    "Document-Out-Edit":"Document-Out-Edit",
     "Document-In-Edit":"Document-In-Edit",
     "Document-In":"Document-In",
     "foler":"folder",
