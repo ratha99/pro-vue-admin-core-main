@@ -236,7 +236,7 @@ export default {
 
     const selectedFile = ref("")
     const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf']
-    const maxSize = 2 * 1024 * 1024;// 2 MB,
+    const maxSize = 15 * 1024 * 1024;// 15 MB,
 
     // Define a validation schema
     const schema = yup.object({
