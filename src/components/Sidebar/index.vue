@@ -160,8 +160,7 @@ export default defineComponent({
     const getMenu = async () => {
       menuItems.value.push({
         isHeadr: true,
-        title: "foler",
-
+        title: "folder",
       });
 
       // for slug Admin
@@ -248,7 +247,7 @@ export default defineComponent({
       }
       // for slug DOE
       if (services.checkPermission(perSlug[0].DOE)) {
-
+        
         if (!menuItems.value.find((item) => item.title === "doe")) {
           menuItems.value.push({
             title: "doe",
@@ -269,26 +268,9 @@ export default defineComponent({
             ],
           });
         }
-        menuItems.value.push({
-          title: "doe",
-          icon: "stash:folder-solid",
-          link: "department",
-          isOpen: true,
-          child: [
-            {
-              childtitle: "ឯកសារចេញ",
-              childlink: "doe-docOut",
-              icon: "fluent:folder-arrow-right-48-regular",
-            },
-            {
-              childtitle: "ឯកសារចូល",
-              childlink: "doe-docIn",
-              icon: "fluent:folder-arrow-left-48-regular",
-            },
-          ],
-        });
-
       }
+      
+// slug Admin
       if (services.checkPermission(perSlug[0].ADMIN)) {
         menuItems.value.push({
           title: "permission_setting",

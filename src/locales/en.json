@@ -108,9 +108,23 @@
     "last name": "last name",
     "dac-docin":"dac",
     "dac docin":"dac",
+    "docOut":"Doc Out",
     "Document-In-Create":"Document-In-Create",
+    "Document-Out-Create":"Document-Out-Create",
     "Document-In-Edit":"Document-In-Edit",
     "Document-In":"Document-In",
     "foler":"folder",
-    "doe":"doe"
+    "doe":"doe",
+    "Number":"number",
+    "Title":"title",
+    "Doc Type":"Document Type",
+    "Action":"Action",
+    "In":"In",
+    "Out":"Out",
+    "Document No":"Document No",
+    "Document":"Document",
+    "Number is a required field":"Number is a required field",
+    "Title is a required field":"Title is a required field",
+    "close":"close"
+
 }

@@ -1,8 +1,8 @@
 <template>
   <div>
 
-  <ErrorBoundary>
-    <!-- <Card>
+    <ErrorBoundary>
+      <!-- <Card>
       <div>
         <h2>PDF</h2>
         <div v-if="loading">Loading PDF...</div>
@@ -14,26 +14,26 @@
 </PDFViewer>
 </div>
 </Card> -->
-    <!-- Delete Model -->
-    <Modal :title="$t('delete')" :activeModal="showDelete" @close="showDelete = false" :themeClass="modalHeader">
-      <h4 class="font-medium text-lg mb-3 text-slate-900">
-        {{ $t("delete_confirm_message") }}
-      </h4>
-      <div class="text-right">
-        <Button :text="$t('o_k')" :btnClass="modalButton" @click="deleteFile()"></Button>
-      </div>
-    </Modal>
-    <!-- Create Model -->
-    <Modal :title="$t('Document-In-Create')" label="Modal Create" :activeModal="show" @close="show = false">
-      <form @submit.prevent="uploadFile" class="space-y-4">
-        <Textinput label="Document No" name="num" type="text" placeholder="Document No" v-model="num"
-          :error="numError" />
-        <br>
-        <Textarea label="Title" name="title" placeholder="Title" v-model="title" :error="titleError" />
-        <br>
+      <!-- Delete Model -->
+      <Modal :title="$t('delete')" :activeModal="showDelete" @close="showDelete = false" :themeClass="modalHeader">
+        <h4 class="font-medium text-lg mb-3 text-slate-900">
+          {{ $t("delete_confirm_message") }}
+        </h4>
+        <div class="text-right">
+          <Button :text="$t('o_k')" :btnClass="modalButton" @click="deleteFile()"></Button>
+        </div>
+      </Modal>
+      <!-- Create Model -->
+      <Modal :title="$t('Document-In-Create')" label="Modal Create" :activeModal="show" @close="show = false">
+        <form @submit.prevent="uploadFile" class="space-y-4">
+          <Textinput :label="$t('Document No')" name="num" type="text"  :placeholder="$t('Document No')" v-model="num"
+            :error="numError" />
+          <br>
+          <Textarea :label="$t('Title')" name="title" :placeholder="$t('Title')" v-model="title" :error="titleError" />
+          <br>
 
-        <Fileinput label="Document" @change="onFileChange" accept="application/pdf" required />
-        <!-- <vue-file-agent 
+          <Fileinput :label="$t('Document')" @change="onFileChange" accept="application/pdf" required />
+          <!-- <vue-file-agent 
       v-model="files"
       
       @input="onFilesChange"
@@ -42,70 +42,70 @@
         Drag and drop files here or click to upload
       </template>
     </vue-file-agent> -->
-        <br>
+          <br>
 
-        <div class="text-right">
-          <Button icon="heroicons-outline:pencil-square" :text="$t('save')" btnClass=" btn-success font-normal btn-sm "
-            iconClass="text-lg"></Button>
-          <Button icon="heroicons-outline:x-mark" text="Close" btnClass=" btn-warning font-normal btn-sm "
-            iconClass="text-lg" @click="show = false" class="ml-4" />
-        </div>
-      </form>
-    </Modal>
-    <!--Modal Edit -->
-    <Modal :title="$t('Document-In-Edit')" label="Modal Edit" :activeModal="show1" @close="show1 = false">
-      <form @submit.prevent="updateFile" class="space-y-4">
-        <Textinput label="Document No" name="num" type="text" placeholder="Document No" v-model="numEdit"
-          :disabled="isDisabled" :error="numEditError" />
-        <br>
-        <Textarea label="Title" name="title" placeholder="Title" v-model="titleEdit" :disabled="isDisabled"
-          :error="titleEditError" />
+          <div class="text-right">
+            <Button icon="heroicons-outline:pencil-square" :text="$t('save')"
+              btnClass=" btn-success font-normal btn-sm " iconClass="text-lg"></Button>
+            <Button icon="heroicons-outline:x-mark" :text="$t('close')" btnClass=" btn-warning font-normal btn-sm "
+              iconClass="text-lg" @click="show = false" class="ml-4" />
+          </div>
+        </form>
+      </Modal>
+      <!--Modal Edit -->
+      <Modal :title="$t('Document-In-Edit')" label="Modal Edit" :activeModal="show1" @close="show1 = false">
+        <form @submit.prevent="updateFile" class="space-y-4">
+          <Textinput :label="$t('Document No')" name="num" type="text" :placeholder="$t('Document No')" v-model="numEdit"
+            :disabled="isDisabled" :error="numEditError" />
+          <br>
+          <Textarea :label="$t('Title')" name="title" placeholder="$t('Title')" v-model="titleEdit" :disabled="isDisabled"
+            :error="titleEditError" />
 
-        <!-- <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p> -->
-        <div class="text-right">
-          <Button icon="heroicons-outline:pencil-square" :text="$t('save')" btnClass=" btn-success font-normal btn-sm "
-            iconClass="text-lg" v-if="isVisible"></Button>
-          <Button icon="heroicons-outline:pencil-square" text="Edit" btnClass=" btn-success font-normal btn-sm "
-            iconClass="text-lg" @click="editFile" v-if="btnUpdate" />
+          <!-- <p v-if="errorMessage" style="color: red;">{{ errorMessage }}</p> -->
+          <div class="text-right">
+            <Button icon="heroicons-outline:pencil-square" :text="$t('save')"
+              btnClass=" btn-success font-normal btn-sm " iconClass="text-lg" v-if="isVisible"></Button>
+            <Button icon="heroicons-outline:pencil-square" text="Edit" btnClass=" btn-success font-normal btn-sm "
+              iconClass="text-lg" @click="editFile" v-if="btnUpdate" />
 
-          <!-- <Button icon="heroicons-outline:inbox-arrow-down" text="Update" btnClass=" btn-success font-normal btn-sm "
+            <!-- <Button icon="heroicons-outline:inbox-arrow-down" text="Update" btnClass=" btn-success font-normal btn-sm "
         iconClass="text-lg" v-if="isVisible" /> -->
-          <Button icon="heroicons-outline:x-mark" text="Close" btnClass=" btn-warning font-normal btn-sm "
-            iconClass="text-lg" @click="show1 = false && isDisabled" class="ml-4" />
-        </div>
-        <br>
+            <Button icon="heroicons-outline:x-mark" text="Close" btnClass=" btn-warning font-normal btn-sm "
+              iconClass="text-lg" @click="show1 = false && isDisabled" class="ml-4" />
+          </div>
+          <br>
 
-        <!-- <Fileinput label="Document" @change="onFileChange" /> -->
-        <br>
+          <!-- <Fileinput label="Document" @change="onFileChange" /> -->
+          <br>
 
-        <div v-if="loading" class="py-4">
+          <div v-if="loading" class="py-4">
 
-          <img :src="image" v-if="image" alt="Fetched Image" style="max-width: 100%;" />
-        </div>
-        <div v-if="loading">Loading PDF...</div>
-        <div v-if="error" style="color: red;">{{ error }}</div>
-        <PDFViewer :src="pdfUrl" v-if="pdfUrl" :width="'100%'" :height="'300px'">
+            <img :src="image" v-if="image" alt="Fetched Image" style="max-width: 100%;" />
+          </div>
+          <div v-if="loading">Loading PDF...</div>
+          <div v-if="error" style="color: red;">{{ error }}</div>
+          <PDFViewer :src="pdfUrl" v-if="pdfUrl" :width="'100%'" :height="'300px'">
 
-        </PDFViewer>
+          </PDFViewer>
 
 
-      </form>
-    </Modal>
+        </form>
+      </Modal>
 
-    <div class="space-y-5 profile-page">
+      <div class="space-y-5 profile-page">
 
-      <div class="grid grid-cols-12 gap-6">
-        <div class="lg:col-span-12 col-span-12 ">
-          <Card :title="$t('Document-In')">
-            <template #header>
-              <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')"
-                btnClass="font-normal btn-sm  bg-cyan-800 text-white" iconClass="text-lg" @click="toggleCreate" />
-            </template>
-            <vue-good-table :columns="columns" :rows="files" styleClass=" vgt-table bordered centered"
-              :sort-options="{ enabled: ture }" :pagination-options="{
-                enabled: true,
-                perPage: perpage,
-              }" :search-options="{
+        <div class="grid grid-cols-12 gap-6">
+          <div class="lg:col-span-12 col-span-12 ">
+            <Card :title="$t('Document-In')">
+              <template #header>
+                <Button icon="heroicons-outline:plus-sm" :text="$t('create_new')"
+                  btnClass="font-normal btn-sm  bg-cyan-800 text-white" iconClass="text-lg" @click="toggleCreate" />
+              </template>
+              <vue-good-table :columns="columns" :rows="files" styleClass=" vgt-table bordered centered"
+                :sort-options="{ enabled: ture }" :pagination-options="{
+                  enabled: true,
+                  perPage: perpage,
+                }" :search-options="{
                 enabled: true,
                 externalQuery: searchTerm,
               }" :select-options="{
@@ -117,11 +117,11 @@
                 disableSelectinfo: true, // disable the select info-500 panel on top
                 selectAllByGroup: true, // when used in combination with a grouped table, add a checkbox in the header row to check/uncheck the entire group
               }">
-              <template #table-row="props">
-                <span v-if="props.column.field == 'action'" class="ml-2">
+                <template #table-row="props">
+                  <span v-if="props.column.field == 'action'" class="ml-2">
 
-                  <div class="flex justify-center space-x-3 rtl:space-x-reverse">
-                    <!-- <Tooltip placement="top" arrow theme="success-500">
+                    <div class="flex justify-center space-x-3 rtl:space-x-reverse">
+                      <!-- <Tooltip placement="top" arrow theme="success-500">
                       <template #button>
                         <div class="action-btn btn-outline-success" @click="PdfViewer(props.row._id)">
                           <Icon icon="heroicons:pencil-square" />
@@ -129,40 +129,40 @@
                       </template>
           <span>{{ $t("view") }}</span>
           </Tooltip> -->
-                    <Tooltip placement="top" arrow theme="success-500">
-                      <template #button>
-                        <div class="action-btn btn-outline-success" @click="toggleModalEdit(props.row._id)">
-                          <Icon icon="heroicons:pencil-square" />
-                        </div>
-                      </template>
-                      <span>{{ $t("edit") }}</span>
-                    </Tooltip>
-                    <Tooltip placement="top" arrow theme="danger-500">
-                      <template #button>
-                        <div class="action-btn btn-outline-danger" @click="deleteModal(props.row._id)">
-                          <Icon icon="heroicons:trash" />
-                        </div>
-                      </template>
-                      <span>{{ $t("delete") }}</span>
-                    </Tooltip>
-                  </div>
+                      <Tooltip placement="top" arrow theme="success-500">
+                        <template #button>
+                          <div class="action-btn btn-outline-success" @click="toggleModalEdit(props.row._id)">
+                            <Icon icon="heroicons:pencil-square" />
+                          </div>
+                        </template>
+                        <span>{{ $t("edit") }}</span>
+                      </Tooltip>
+                      <Tooltip placement="top" arrow theme="danger-500">
+                        <template #button>
+                          <div class="action-btn btn-outline-danger" @click="deleteModal(props.row._id)">
+                            <Icon icon="heroicons:trash" />
+                          </div>
+                        </template>
+                        <span>{{ $t("delete") }}</span>
+                      </Tooltip>
+                    </div>
 
-                </span>
-                <span v-else>
-                  {{ props.formattedRow[props.column.field] }}
-                </span>
-              </template>
+                  </span>
+                  <span v-else>
+                    {{ props.formattedRow[props.column.field] }}
+                  </span>
+                </template>
 
-            </vue-good-table>
+              </vue-good-table>
 
-          </Card>
+            </Card>
+          </div>
+
         </div>
 
+
       </div>
-
-
-    </div>
-  </ErrorBoundary>
+    </ErrorBoundary>
   </div>
 </template>
 
@@ -189,7 +189,7 @@ import Tooltip from "@/components/Tooltip";
 import * as yup from "yup";
 import { useField, useForm } from "vee-validate";
 import PDFViewer from 'pdf-vue3';
-
+import { perSlug } from "../../../constant/permission";
 
 export default {
   components: {
@@ -206,6 +206,7 @@ export default {
     Select,
     Tooltip,
     PDFViewer,
+    perSlug
 
     // PdfApp,
   },
@@ -228,10 +229,10 @@ export default {
     const isVisible = ref(false);
     const isDisabled = ref(true);
 
-    const type = "In";
+    const type = ref("In");
     const file = ref([]);
     const userRole = ref("")
-
+    const roleId = ref("")
 
     const selectedFile = ref("")
     const validExtensions = ['jpg', 'jpeg', 'png', 'gif', 'pdf']
@@ -239,8 +240,8 @@ export default {
 
     // Define a validation schema
     const schema = yup.object({
-      num: yup.string().required("Number is a required field"),
-      title: yup.string().required("Title is a required field"),
+      num: yup.string().required(t("Number is a required field")),
+      title: yup.string().required(t("Title is a required field")),
       numEdit: yup.string().required("Number is a required field"),
       titleEdit: yup.string().required("Title is a required field"),
     });
@@ -261,12 +262,56 @@ export default {
       title.value = "";
       num.value = "";
     };
+    // const getRoleId = async(userRole) =>{
+    //   await services
+    //     .get(
+    //       `roles?roleName=DAC`
+    //     )
+    //     .then((response) => {
+    //       userRole.value = response.data[0]._id
+          
+    //     })
+    //     console.log(userRole.value)
+    //     .catch((error) => console.log(error));
+       
+    // }
     const getFiles = async () => {
-      services.common_get(`files`)
+     
+     
+      const role = JSON.parse(localStorage.getItem('userData'))
+      userRole.value = role.role.roleName
+       const rol = role.role._id
+      // console.log(userRole.value)
+      //console.log(roleId)
+      if (services.checkPermission(perSlug[0].ADMIN)){
+        await services
+      var slug= perSlug[0].DAC;
+      var type=perSlug[0].IN;
+        const url = `files?type=${type}&slug=${slug}`;
+        console.log("url",url)
+        services.common_get(url)
         .then(response => {
           files.value = response.data
         })
         .catch(error => console.log(error))
+      
+      }else {    
+               // Example string
+        const url = `files/getfilesbyrole/${rol}?type=In`;
+        // files/getfilesbyrole/67603311ecfdda41ddf56fa1?type=Out
+          
+          console.log("url1",url)
+        services.common_get(url)
+        .then(response => {
+          files.value = response.data
+          console.log(response.data)
+        })
+        .catch(error => console.log(error))
+      console.log(file.value)
+      }
+      console.log(file.value)
+      // console.log(userRole.value)
+      // 
     };
     const editFile = () => {
       isVisible.value = !isVisible.value; // Toggle visibility
@@ -326,8 +371,8 @@ export default {
     }
     const toggleModalEdit = async (id) => {
       loading.value = true
-      image.value=""
-      pdfUrl.value=""
+      image.value = ""
+      pdfUrl.value = ""
       fileID.value = id
       show1.value = !show1.value;
       //get data from file
@@ -355,14 +400,14 @@ export default {
     };
 
     const PdfViewer = async (id) => {
-      pdfUrl.value=""
+      pdfUrl.value = ""
       try {
         const response = await services.get(`files/text/${id}`)
         const fileText = response.data
         if (fileText.mimetype == 'application/pdf') {
-            loading.value =false
-            pdfUrl.value = `http://localhost:3000/${fileText.path}`
-        }else{
+          loading.value = false
+          pdfUrl.value = `http://localhost:3000/${fileText.path}`
+        } else {
           loading.value = true
         }
       } catch (error) {
@@ -401,30 +446,43 @@ export default {
         selectedFile.value = file;
       }
     }
-    const uploadFile = handleSubmit(() => {
+    const uploadFile = handleSubmit(async() => {
       //console.log(this.num)     
       if (!selectedFile.value) {
         toast.warning("Please select a valid file first!");
         return;
       }
-      // Create a FormData instance
-      const roleID = JSON.parse(localStorage.getItem('userData'))
-      userRole.value = roleID.role._id
+    //  await services
+    //     .get(
+    //       `roles?roleName=DAC`
+    //     )
+    //     .then((response) => {
+    //       userRole.value = response.data[0]._id
+          
+    //     })
+    //     .catch((error) => console.log(error));
+    
+    //   console.log(userRole.value)
+     const role = JSON.parse(localStorage.getItem('userData'))
+    //   userRole.value = role.role.roleName
+    // console.log("role",role)
+       const rol = role.role._id
 
       const formData = new FormData();
       formData.append('file', selectedFile.value);
-      formData.append('role', userRole.value);
+      formData.append('role', rol);
       formData.append('type', type.value);
       formData.append('num', num.value);
       formData.append('title', title.value);
+      formData.append('slug',perSlug[0].DAC);
       // console.log(formData)
-      console.log(title.value)
+      console.log(type.value)
 
       services.common_post('files/upload-single/', formData,
         {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+          // headers: {
+          //   'Content-Type': 'multipart/form-data',
+          // },
         })
         .then((response) => {
           toast.success("Success", {
@@ -449,24 +507,29 @@ export default {
       show, show1, toast, isDisabled, files, numEdit, titleEdit,
       type, file, num, title, userRole, selectedFile, validExtensions, maxSize,
       image, isVisible, btnUpdate, showDelete, pdfUrl, loading, error,
-      numError, titleError, numEditError, titleEditError,
+      numError, titleError, numEditError, titleEditError,roleId,
 
       columns: [
-        
+
         {
-          label: "Number",
+          label: t("Number"),
           field: "num",
 
         },
         {
-          label: "Title",
+          label: t("Title"),
           field: "title",
           type: "string",
         },
-      
-      
         {
-          label: 'Action',
+           label: t("Doc Type"),
+          field: "type",
+          type: "string",
+        },
+
+
+        {
+          label: t('Action'),
           field: 'action',
           tdClass: 'text-center',
           thClass: 'text-center',

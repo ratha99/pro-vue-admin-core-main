@@ -3,44 +3,32 @@
     <div class="flex items-center">
       <div class="flex-1 ltr:mr-[10px] rtl:ml-[10px]">
         <div class="lg:h-8 lg:w-8 h-7 w-7 rounded-full">
-          <img
-            :src= "urlProfile"
-            alt=""
-            class="block w-full h-full object-cover rounded-full"
-          />
+          <img :src="urlProfile" alt="" class="block w-full h-full object-cover rounded-full" />
         </div>
       </div>
       <div
-        class="flex-none text-slate-600 dark:text-white text-sm font-normal items-center lg:flex hidden overflow-hidden text-ellipsis whitespace-nowrap"
-      >
-        <span
-          class="overflow-hidden text-ellipsis whitespace-nowrap w-[85px] block"
-          >{{ fullName }}</span
-        >
-        <span class="text-base inline-block ltr:ml-[10px] rtl:mr-[10px]"
-          ><Icon icon="heroicons-outline:chevron-down"></Icon
-        ></span>
+        class="flex-none text-slate-600 dark:text-white text-sm font-normal items-center lg:flex hidden overflow-hidden text-ellipsis whitespace-nowrap">
+        <span class="overflow-hidden text-ellipsis whitespace-nowrap w-[85px] block">{{ fullName }}</span>
+        <span class="text-base inline-block ltr:ml-[10px] rtl:mr-[10px]">
+          <Icon icon="heroicons-outline:chevron-down"></Icon>
+        </span>
       </div>
     </div>
     <template #menus>
       <MenuItem v-slot="{ active }" v-for="(item, i) in ProfileMenu" :key="i">
-        <div
-          type="button"
-          :class="`${
-            active
-              ? 'bg-slate-100 dark:bg-slate-700 dark:bg-opacity-70 text-slate-900 dark:text-slate-300'
-              : 'text-slate-600 dark:text-slate-300'
-          } `"
-          class="inline-flex items-center space-x-2 rtl:space-x-reverse w-full px-4 py-2 first:rounded-t last:rounded-b font-normal cursor-pointer"
-          @click="item.link()"
-        >
-          <div class="flex-none text-lg">
-            <Icon :icon="item.icon" />
-          </div>
-          <div class="flex-1 text-sm">
-            {{ item.label }}
-          </div>
+      <div type="button" :class="`${active
+          ? 'bg-slate-100 dark:bg-slate-700 dark:bg-opacity-70 text-slate-900 dark:text-slate-300'
+          : 'text-slate-600 dark:text-slate-300'
+        } `"
+        class="inline-flex items-center space-x-2 rtl:space-x-reverse w-full px-4 py-2 first:rounded-t last:rounded-b font-normal cursor-pointer"
+        @click="item.link()">
+        <div class="flex-none text-lg">
+          <Icon :icon="item.icon" />
         </div>
+        <div class="flex-1 text-sm">
+          {{ item.label }}
+        </div>
+      </div>
       </MenuItem>
     </template>
   </Dropdown>
@@ -59,7 +47,7 @@ export default {
     Dropdown,
     MenuItem,
   },
-  setup(){
+  setup() {
     const services = inject('services')
     const { t } = useI18n()
     const router = useRouter()
@@ -88,8 +76,6 @@ export default {
         link: () => {
           localStorage.removeItem("activeUser");
           // localStorage.removeItem("userData");
-          window.location.reload()
-
           router.push("/login");
           window.location.reload();
         },
@@ -98,7 +84,7 @@ export default {
 
     const getUserProfile = async () => {
       userDetail.value = await services.getUserDetail()
-      if(userDetail.value != null){
+      if (userDetail.value != null) {
         fullName.value = userDetail.value.firstname
         //var currentDate = new Date().toISOString().slice(0, 10);
         //var profileExpired = new Date(userDetail.value.profile_expired).toISOString().slice(0, 10);
@@ -146,7 +132,7 @@ export default {
       await getUserProfile()
     })
 
-    return{
+    return {
       getUserProfile,
       userDetail,
       fullName,
