@@ -7,11 +7,11 @@ import authHeaderCommon from "./authHeaderCommon";
 // const API_URL = "http://103.16.62.58:86/web/api/v1/";
 // const API_COMMON_URL = "http://103.16.62.58:86/api/v1/";
 
-const API_URL = "http://localhost:3000/v1/";
-const API_COMMON_URL = "http://localhost:3000/v1/"; 
+// const API_URL = "http://localhost:3000/v1/";
+// const API_COMMON_URL = "http://localhost:3000/v1/"; 
 
-// const API_URL = "http://152.42.250.99:3000/v1/";
-// const API_COMMON_URL = "http://152.42.250.99:3000/v1/"; 
+const API_URL = "http://152.42.250.99:3000/v1/";
+const API_COMMON_URL = "http://152.42.250.99:3000/v1/"; 
 //common url
 const common_get = (endpoint) => {
     return axios.get(API_COMMON_URL + endpoint, { headers: authHeader() });
