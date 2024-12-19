@@ -190,6 +190,7 @@ import * as yup from "yup";
 import { useField, useForm } from "vee-validate";
 import PDFViewer from 'pdf-vue3';
 import { perSlug } from "../../../constant/permission";
+const apiUrl = import.meta.env.VITE_API_URL_PDF;
 
 export default {
   components: {
@@ -294,7 +295,7 @@ export default {
           files.value = response.data
         })
         .catch(error => console.log(error))
-      
+          
       }else {    
                // Example string
         const url = `files/getfilesbyrole/${rol}?type=Out`;
@@ -406,7 +407,7 @@ export default {
         const fileText = response.data
         if (fileText.mimetype == 'application/pdf') {
           loading.value = false
-          pdfUrl.value = `http://localhost:3000/${fileText.path}`
+          pdfUrl.value = `${apiUrl}${fileText.path}`
         } else {
           loading.value = true
         }
