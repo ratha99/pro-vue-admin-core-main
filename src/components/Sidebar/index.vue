@@ -40,7 +40,7 @@
           class="app-logo"
         >
           <img
-            src="@/assets/images/logo/mptc_logo_Small.png"
+            src="@/assets/images/logo/mptc_logo_small.png"
             alt=""
             v-if="
               !this.$store.themeSettingsStore.isDark &&
@@ -49,7 +49,7 @@
           />
 
           <img
-            src="@/assets/images/logo/mptc_logo_Small.png"
+            src="@/assets/images/logo/mptc_logo_small.png"
             alt=""
             v-if="
               this.$store.themeSettingsStore.isDark ||

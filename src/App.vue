@@ -25,7 +25,7 @@ export default {
 }
 @font-face {
   font-family: "KhmerOSMoul";
-  src: url("@/assets/fonts/KhmerOSMuol.ttf");
+  src: url("@/assets/fonts/KhmerOSMoul.ttf") format('truetype');
 }
 @font-face {
   font-family: "KhmerOSMoulLight";
