@@ -10,8 +10,8 @@ import authHeaderCommon from "./authHeaderCommon";
 // const API_URL = "http://localhost:3000/v1/";
 // const API_COMMON_URL = "http://localhost:3000/v1/"; 
 
-const API_URL = "https://frontend.devkrc.com";
-const API_COMMON_URL = "https://frontend.devkrc.com"; 
+const API_URL = "https://api.devkrc.com/v1/";
+const API_COMMON_URL = "https://api.devkrc.com/v1/"; 
 //common url
 const common_get = (endpoint) => {
     return axios.get(API_COMMON_URL + endpoint, { headers: authHeader() });
